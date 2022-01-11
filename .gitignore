@@ -136,3 +136,4 @@ staticfiles
 .nuxt
 frontend/coverage
 .eslintcache
+.vscode
