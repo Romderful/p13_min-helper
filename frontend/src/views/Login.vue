@@ -60,12 +60,13 @@ export default {
   methods: {
     async handleSubmit() {
       try {
-        const reponse = await axios.post("api-v1/auth/login/", {
+        const response = await axios.post("api-v1/auth/login/", {
           email: this.email,
           password: this.password,
         });
-        localStorage.setItem("access_token", reponse.data.access_token);
-        if (reponse.status == 200) {
+        if (response.status == 200) {
+          localStorage.setItem("access_token", response.data.access_token);
+          this.$store.dispatch("user", response.data.user);
           this.$router.push("/");
         }
       } catch (e) {

@@ -4,31 +4,38 @@
       <div class="container d-flex flex-wrap">
         <ul class="nav me-auto">
           <li class="nav-item">
-            <router-link to="/"
-              ><a class="nav-link link-dark px-2 active" aria-current="page"
-                >Home</a
-              ></router-link
+            <router-link
+              to="/"
+              class="nav-link link-dark px-2 active"
+              aria-current="page"
+              >Home</router-link
             >
           </li>
           <li class="nav-item">
-            <router-link to="about"
-              ><a class="nav-link link-dark px-2">About</a></router-link
+            <router-link to="about" class="nav-link link-dark px-2"
+              >About</router-link
             >
           </li>
         </ul>
-        <ul class="nav">
+        <ul v-if="!user" class="nav">
           <li class="nav-item">
-            <router-link to="log-in"
-              ><a href="#" class="nav-link link-dark px-2"
-                >Login</a
-              ></router-link
+            <router-link to="log-in" class="nav-link link-dark px-2"
+              >Login</router-link
             >
           </li>
           <li class="nav-item">
-            <router-link to="sign-up"
-              ><a href="#" class="nav-link link-dark px-2"
-                >Sign up</a
-              ></router-link
+            <router-link to="sign-up" class="nav-link link-dark px-2"
+              >Sign up</router-link
+            >
+          </li>
+        </ul>
+        <ul v-if="user" class="nav">
+          <li class="nav-item">
+            <a
+              href="javascript:void(0)"
+              @click="handleClick"
+              class="nav-link link-dark px-2"
+              >Logout</a
             >
           </li>
         </ul>
@@ -60,6 +67,24 @@
     </header>
   </div>
 </template>
+
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+  name: "Navbar",
+  methods: {
+    handleClick() {
+      localStorage.removeItem("access_token");
+      this.$store.dispatch("user", null);
+      this.$router.push("/");
+    },
+  },
+  computed: {
+    ...mapGetters(["user"]),
+  },
+};
+</script>
 
 <style>
 .b-example-divider {
