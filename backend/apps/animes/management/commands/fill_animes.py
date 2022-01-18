@@ -1,8 +1,10 @@
 """Fill the database with the dataset retrieved from AniAPI."""
 
 import requests
+import time
 
 from django.core.management.base import BaseCommand
+from ...models import Anime, Category
 
 
 class Command(BaseCommand):
@@ -34,7 +36,7 @@ class AniAPI:
 
         Set up the base url for the API endpoint.
         """
-        self.api_url = "https://api.aniapi.com/v1/anime/"
+        self.api_url = "https://api.aniapi.com/v1/anime?nsfw=true"
         self.entire_dataset = []
         self.filtered_dataset = []
 
@@ -45,12 +47,13 @@ class AniAPI:
     def get_anime_data(self) -> list:
         """Returns the entire data retrieved from AniAPI API."""
         running = True
-        page = 144
+        page = 1
         while running:
             response = requests.get(self.api_url, params={"page": page})
             print(f"page : {page} - getting the data...")
             if page < response.json()["data"]["last_page"]:
                 self.entire_dataset.append(response.json())
+                time.sleep(62)  # API restriction
             else:
                 running = False
             page += 1
@@ -64,4 +67,20 @@ class AniAPI:
 
     def insert_anime_data(self):
         """Insert the filtered data into our database."""
-        print(self.filtered_dataset)
+        for anime in self.filtered_dataset:
+            created_anime, created = Anime.objects.update_or_create(
+                english_name=anime["titles"]["en"],
+                japanese_name=anime["titles"]["jp"],
+                description=anime["descriptions"]["en"],
+                start_date=anime["start_date"],
+                end_date=anime["end_date"],
+                episodes_count=anime["episodes_count"],
+                cover_image=anime["cover_image"],
+                score=anime["score"],
+            )
+
+            for category in anime["genres"]:
+                created_category, created = Category.objects.update_or_create(
+                    name=category
+                )
+                created_anime.category.add(created_category)

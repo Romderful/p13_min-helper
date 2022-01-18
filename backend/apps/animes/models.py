@@ -23,16 +23,14 @@ class Anime(models.Model):
 
     category = models.ManyToManyField(Category)
     update_date = models.DateTimeField(auto_now=True)
-    english_name = models.CharField(max_length=75)
-    japanese_name = models.CharField(max_length=50)
-    description = models.TextField()
-    start_date = models.DateField()
-    end_date = models.DateField()
-    episodes_count = models.SmallIntegerField()
-    episode_duration = models.SmallIntegerField()
-    cover_image = models.URLField(max_length=200)
-    banner_image = models.URLField(max_length=200)
-    score = models.SmallIntegerField()
+    english_name = models.CharField(max_length=100, blank=True, null=True)
+    japanese_name = models.CharField(max_length=100, blank=True, null=True)
+    description = models.TextField(blank=True, null=True)
+    start_date = models.CharField(max_length=25, blank=True, null=True)
+    end_date = models.CharField(max_length=25, blank=True, null=True)
+    episodes_count = models.SmallIntegerField(blank=True, null=True)
+    cover_image = models.URLField(blank=True, null=True)
+    score = models.SmallIntegerField(blank=True, null=True)
 
     def __str__(self) -> str:
         """Display the english name of the anime in the admin panel."""
