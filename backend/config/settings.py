@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     "allauth.account",
     "allauth.socialaccount",
     "dj_rest_auth.registration",
+    # My apps
+    "apps.animes",
 ]
 
 MIDDLEWARE = [
