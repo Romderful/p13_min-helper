@@ -1,3 +1,10 @@
-from django.shortcuts import render
+"""Animes views."""
 
-# Create your views here.
+from rest_framework import viewsets
+from .models import Anime
+from .serializers import AnimeSerializer
+
+
+class AnimeViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Anime.objects.all().order_by("id")
+    serializer_class = AnimeSerializer

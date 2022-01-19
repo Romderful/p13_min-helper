@@ -101,4 +101,4 @@ class AniAPI:
                 created_category, created = Category.objects.update_or_create(
                     name=category
                 )
-                created_anime.category.add(created_category)
+                created_anime.categories.add(created_category)
