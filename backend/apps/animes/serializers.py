@@ -5,7 +5,9 @@ from .models import Anime
 
 
 class AnimeSerializer(serializers.ModelSerializer):
-    category = serializers.SlugRelatedField(
+    """Animes serializer."""
+
+    categories = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="name"
     )
 
