@@ -14,9 +14,9 @@ class Command(BaseCommand):
     """
 
     def __init__(self):
-        """Initialize.
+        """Initializer.
 
-        Instantiate the current API class used.
+        Instantiates the current API class used.
         """
         self.used_api = AniAPI()
 
@@ -37,37 +37,55 @@ class AniAPI:
         Set up the base url for the API endpoint.
         """
         self.api_url = "https://api.aniapi.com/v1/anime?nsfw=true"
-        self.entire_dataset = []
-        self.filtered_dataset = []
+        self.animes_dataset = []
+        self.filtered_animes_dataset = []
 
-        self.get_anime_data()
-        self.filter_anime_data()
-        self.insert_anime_data()
+        self.get_animes_data()
+        self.filter_animes_data(self.animes_dataset)
+        self.insert_animes_data()
 
-    def get_anime_data(self) -> list:
-        """Returns the entire data retrieved from AniAPI API."""
+    def get_animes_data(self) -> list:
+        """Returns the animes data retrieved from AniAPI API."""
         running = True
         page = 1
         while running:
             response = requests.get(self.api_url, params={"page": page})
             print(f"page : {page} - getting the data...")
             if page < response.json()["data"]["last_page"]:
-                self.entire_dataset.append(response.json())
-                time.sleep(62)  # API restriction
+                for anime in response.json()["data"]["documents"]:
+                    self.animes_dataset.append(anime)
+                time.sleep(1)  # API restriction
             else:
                 running = False
             page += 1
-        return self.entire_dataset
+        return self.animes_dataset
 
-    def filter_anime_data(self) -> list:
-        """Returns the data filtered with only anime related informations."""
-        for anime in self.entire_dataset[0]["data"]["documents"]:
-            self.filtered_dataset.append(anime)
-        return self.filtered_dataset
+    def filter_animes_data(self, data) -> list:
+        """Checks that the animes data fits with the models restrictions.
 
-    def insert_anime_data(self):
-        """Insert the filtered data into our database."""
-        for anime in self.filtered_dataset:
+        Args:
+            data (list): animes_dataset.
+
+        Returns:
+            list: filtered_animes_dataset.
+        """
+        for anime in data:
+            if (
+                len(anime["titles"]["en"]) <= 175
+                or anime["titles"]["en"] == None
+                and len(anime["titles"]["jp"]) <= 175
+                or anime["titles"]["jp"] == None
+                and len(anime["start_date"]) <= 25
+                or anime["start_date"] == None
+                and len(anime["end_date"]) <= 25
+                or anime["end_date"] == None
+            ):
+                self.filtered_animes_dataset.append(anime)
+        return self.filtered_animes_dataset
+
+    def insert_animes_data(self):
+        """Inserts the filtered data into our database."""
+        for anime in self.filtered_animes_dataset:
             created_anime, created = Anime.objects.update_or_create(
                 english_name=anime["titles"]["en"],
                 japanese_name=anime["titles"]["jp"],
