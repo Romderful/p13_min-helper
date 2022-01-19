@@ -23,8 +23,8 @@ class Anime(models.Model):
 
     category = models.ManyToManyField(Category)
     update_date = models.DateTimeField(auto_now=True)
-    english_name = models.CharField(max_length=100, blank=True, null=True)
-    japanese_name = models.CharField(max_length=100, blank=True, null=True)
+    english_name = models.CharField(max_length=175, blank=True, null=True)
+    japanese_name = models.CharField(max_length=175, blank=True, null=True)
     description = models.TextField(blank=True, null=True)
     start_date = models.CharField(max_length=25, blank=True, null=True)
     end_date = models.CharField(max_length=25, blank=True, null=True)
