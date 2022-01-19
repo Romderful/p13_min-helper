@@ -60,7 +60,7 @@ class AniAPI:
             page += 1
         return self.animes_dataset
 
-    def filter_animes_data(self, data) -> list:
+    def filter_animes_data(self, data: list) -> list:
         """Checks that the animes data fits with the models restrictions.
 
         Args:
