@@ -21,7 +21,7 @@ class Category(models.Model):
 class Anime(models.Model):
     """Anime's table."""
 
-    category = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category)
     update_date = models.DateTimeField(auto_now=True)
     english_name = models.CharField(max_length=175, blank=True, null=True)
     japanese_name = models.CharField(max_length=175, blank=True, null=True)
