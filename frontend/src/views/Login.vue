@@ -82,6 +82,8 @@ export default {
   max-width: 330px;
   padding: 15px;
   margin: auto;
+  margin-bottom: 7rem;
+  margin-top: 2rem;
 }
 
 .form-signin .checkbox {
