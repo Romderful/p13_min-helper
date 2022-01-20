@@ -1,7 +1,9 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <span class="text-muted">Place sticky footer content here.</span>
+      <router-link to="about" class="nav-link link-dark px-2"
+        >About</router-link
+      >
     </div>
   </footer>
 </template>
