@@ -71,6 +71,6 @@ export default {
 }
 .animes {
   margin-bottom: 7rem;
-  margin-top: 2rem;
+  margin-top: 15rem;
 }
 </style>

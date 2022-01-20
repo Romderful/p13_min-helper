@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="container fixed-top">
     <nav class="py-2 bg-light border-bottom">
       <div class="container d-flex flex-wrap">
         <ul class="nav me-auto">
@@ -41,7 +41,7 @@
         </ul>
       </div>
     </nav>
-    <header class="py-3 mb-5 border-bottom">
+    <header class="py-3 mb-5 bg-white border-bottom">
       <div class="container d-flex flex-wrap justify-content-center">
         <a
           href="/"
