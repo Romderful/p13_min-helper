@@ -25,8 +25,8 @@
             >
           </li>
           <li class="nav-item col-12 col-lg-auto">
-            <router-link to="about" class="nav-link link-dark px-2"
-              >About</router-link
+            <router-link to="animes" class="nav-link link-dark px-2"
+              >Browse</router-link
             >
           </li>
         </ul>
@@ -43,6 +43,11 @@
           </li>
         </ul>
         <ul v-if="user" class="nav auth">
+          <li class="nav-item col-12 col-lg-auto">
+            <a href="javascript:void(0)" class="nav-link link-dark px-2">{{
+              user.username
+            }}</a>
+          </li>
           <li class="nav-item col-12 col-lg-auto">
             <a
               href="javascript:void(0)"
@@ -64,8 +69,8 @@
     </nav>
     <header class="py-3 mb-5 bg-white border-bottom">
       <div class="container d-flex flex-wrap justify-content-center">
-        <a
-          href="/"
+        <router-link
+          to="/"
           class="
             d-flex
             align-items-center
@@ -73,9 +78,8 @@
             me-lg-auto
             text-dark text-decoration-none
           "
+          ><h1>Min-helper</h1></router-link
         >
-          <h1 class="text-center">min-helper</h1>
-        </a>
       </div>
     </header>
   </div>
