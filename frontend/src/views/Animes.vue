@@ -1,5 +1,5 @@
 <template>
-  <div class="container animes">
+  <div v-if="user" class="container animes">
     <div class="container mb-3" v-for="anime in animes" :key="anime.id">
       <div class="card anime-cards p-3">
         <div class="card-title">
@@ -20,6 +20,10 @@
         </div>
       </div>
     </div>
+    <button v-if="page > 1" class="btn btn-primary me-2" @click="decrementPage">
+      Previous
+    </button>
+    <button class="btn btn-primary" @click="incrementPage">Next</button>
   </div>
 </template>
 
@@ -32,13 +36,36 @@ export default {
   data() {
     return {
       animes: null,
+      page: 1,
     };
+  },
+  methods: {
+    async incrementPage() {
+      this.page++;
+      const response = await axios.get(`api-v1/animes/?page=${this.page}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      });
+      this.animes = response.data.results;
+      scrollTo(0, 0);
+    },
+    async decrementPage() {
+      this.page--;
+      const response = await axios.get(`api-v1/animes/?page=${this.page}`, {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("access_token"),
+        },
+      });
+      this.animes = response.data.results;
+      scrollTo(0, 0);
+    },
   },
   computed: {
     ...mapGetters(["user"]),
   },
   async created() {
-    const response = await axios.get("api-v1/animes/", {
+    const response = await axios.get(`api-v1/animes/?page=${this.page}`, {
       headers: {
         Authorization: "Bearer " + localStorage.getItem("access_token"),
       },
