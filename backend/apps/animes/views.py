@@ -12,7 +12,7 @@ class AnimeViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = AnimeSerializer
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ["english_name", "japanese_name"]
-    ordering_fields = ["start_date", "score"]
+    ordering_fields = ["start_date", "end_date", "score"]
 
     def get_queryset(self):
         queryset = Anime.objects.all()
