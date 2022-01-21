@@ -12,7 +12,7 @@ export default createStore({
   mutations: {
     user(state, user) {
       state.user = user;
-    }
+    },
   },
   actions: {
     user(context, user) {
