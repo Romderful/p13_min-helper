@@ -1,7 +1,7 @@
 import axios from "axios"
 
-async function getPage(page_number) {
-    const data = await axios.get(`api-v1/animes/?page=${page_number}`, {
+async function getData(url) {
+    const data = await axios.get(url, {
         headers: {
             Authorization: "Bearer " + localStorage.getItem("access_token"),
         },
@@ -9,4 +9,4 @@ async function getPage(page_number) {
     return data;
 }
 
-export { getPage };
+export { getData };
