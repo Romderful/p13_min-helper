@@ -6,27 +6,27 @@ export default createStore({
     animes_data: null,
   },
   getters: {
-    user: (state) => {
+    getUser: (state) => {
       return state.user;
     },
-    animes_data: (state) => {
+    getAnimesData: (state) => {
       return state.animes_data
     }
   },
   mutations: {
-    user(state, user) {
+    updateUser(state, user) {
       state.user = user;
     },
-    animes_data(state, animes_data) {
+    updateAnimesData(state, animes_data) {
       state.animes_data = animes_data;
     }
   },
   actions: {
-    user(context, user) {
-      context.commit("user", user);
+    updateUser(context, user) {
+      context.commit("updateUser", user);
     },
-    animes_data(context, animes_data) {
-      context.commit("animes_data", animes_data);
+    updateAnimesData(context, animes_data) {
+      context.commit("updateAnimesData", animes_data);
     }
   },
 })
