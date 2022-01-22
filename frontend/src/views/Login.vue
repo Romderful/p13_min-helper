@@ -66,7 +66,7 @@ export default {
         });
         if (response.status == 200) {
           localStorage.setItem("access_token", response.data.access_token);
-          this.$store.dispatch("user", response.data.user);
+          this.$store.dispatch("updateUser", response.data.user);
           this.$router.push("/");
         }
       } catch (e) {

@@ -30,7 +30,7 @@
             >
           </li>
         </ul>
-        <ul v-if="!user" class="nav auth">
+        <ul v-if="!getUser" class="nav auth">
           <li class="nav-item col-12 col-lg-auto">
             <router-link to="log-in" class="nav-link link-dark px-2"
               >Login</router-link
@@ -42,16 +42,16 @@
             >
           </li>
         </ul>
-        <ul v-if="user" class="nav auth">
+        <ul v-if="getUser" class="nav auth">
           <li class="nav-item col-12 col-lg-auto">
             <a href="javascript:void(0)" class="nav-link link-dark px-2">{{
-              user.username
+              getUser.username
             }}</a>
           </li>
           <li class="nav-item col-12 col-lg-auto">
             <a
               href="javascript:void(0)"
-              @click="handleClick"
+              @click="handleLogout"
               class="nav-link link-dark px-2"
               >Logout</a
             >
@@ -105,16 +105,16 @@ export default {
     async getUserSearch(user_input) {
       const response = await getData(`api-v1/animes/?search=${user_input}`);
       this.animes_data = response.data;
-      this.$store.dispatch("animes_data", this.animes_data);
+      this.$store.dispatch("updateAnimesData", this.animes_data);
     },
-    handleClick() {
+    handleLogout() {
       localStorage.removeItem("access_token");
-      this.$store.dispatch("user", null);
+      this.$store.dispatch("updateUser", null);
       this.$router.push("/");
     },
   },
   computed: {
-    ...mapGetters(["user"]),
+    ...mapGetters(["getUser"]),
   },
 };
 </script>

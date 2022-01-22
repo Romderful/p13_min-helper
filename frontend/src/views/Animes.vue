@@ -1,8 +1,8 @@
 <template>
-  <div v-if="user" class="container animes">
+  <div v-if="getUser" class="container animes">
     <div
       class="container mb-3"
-      v-for="anime in animes_data.results"
+      v-for="anime in getAnimesData.results"
       :key="anime.id"
     >
       <div class="card anime-cards p-3">
@@ -25,7 +25,7 @@
       </div>
     </div>
     <button
-      v-if="animes_data.previous"
+      v-if="getAnimesData.previous"
       class="btn btn-primary me-2"
       @click="getPreviousPage"
     >
@@ -43,23 +43,23 @@ export default {
   name: "Animes",
   methods: {
     async getNextPage() {
-      const response = await getData(this.animes_data.next);
-      this.$store.dispatch("animes_data", response.data);
+      const response = await getData(this.getAnimesData.next);
+      this.$store.dispatch("updateAnimesData", response.data);
       scrollTo(0, 0);
     },
     async getPreviousPage() {
-      const response = await getData(this.animes_data.previous);
-      this.$store.dispatch("animes_data", response.data);
+      const response = await getData(this.getAnimesData.previous);
+      this.$store.dispatch("updateAnimesData", response.data);
       scrollTo(0, 0);
     },
   },
   computed: {
-    ...mapGetters(["user"]),
-    ...mapGetters(["animes_data"]),
+    ...mapGetters(["getUser"]),
+    ...mapGetters(["getAnimesData"]),
   },
   async created() {
     const response = await getData("api-v1/animes/");
-    this.$store.dispatch("animes_data", response.data);
+    this.$store.dispatch("updateAnimesData", response.data);
   },
 };
 </script>
