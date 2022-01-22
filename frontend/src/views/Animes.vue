@@ -20,16 +20,20 @@
         </div>
       </div>
     </div>
-    <button v-if="page > 1" class="btn btn-primary me-2" @click="decrementPage">
+    <button
+      v-if="page > 1"
+      class="btn btn-primary me-2"
+      @click="getPreviousPage"
+    >
       Previous
     </button>
-    <button class="btn btn-primary" @click="incrementPage">Next</button>
+    <button class="btn btn-primary" @click="getNextPage">Next</button>
   </div>
 </template>
 
 <script>
-import axios from "axios";
 import { mapGetters } from "vuex";
+import { getPage } from "../api";
 
 export default {
   name: "Animes",
@@ -40,23 +44,15 @@ export default {
     };
   },
   methods: {
-    async incrementPage() {
+    async getNextPage() {
       this.page++;
-      const response = await axios.get(`api-v1/animes/?page=${this.page}`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
+      const response = await getPage(this.page);
       this.animes = response.data.results;
       scrollTo(0, 0);
     },
-    async decrementPage() {
+    async getPreviousPage() {
       this.page--;
-      const response = await axios.get(`api-v1/animes/?page=${this.page}`, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
-        },
-      });
+      const response = await getPage(this.page);
       this.animes = response.data.results;
       scrollTo(0, 0);
     },
@@ -65,11 +61,7 @@ export default {
     ...mapGetters(["user"]),
   },
   async created() {
-    const response = await axios.get(`api-v1/animes/?page=${this.page}`, {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("access_token"),
-      },
-    });
+    const response = await getPage(this.page);
     this.animes = response.data.results;
   },
 };
