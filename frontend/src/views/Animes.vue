@@ -1,6 +1,10 @@
 <template>
   <div v-if="user" class="container animes">
-    <div class="container mb-3" v-for="anime in animes" :key="anime.id">
+    <div
+      class="container mb-3"
+      v-for="anime in animes_data.results"
+      :key="anime.id"
+    >
       <div class="card anime-cards p-3">
         <div class="card-title">
           <h4>{{ anime.english_name }}</h4>
@@ -21,7 +25,7 @@
       </div>
     </div>
     <button
-      v-if="page > 1"
+      v-if="animes_data.previous"
       class="btn btn-primary me-2"
       @click="getPreviousPage"
     >
@@ -33,36 +37,29 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getPage } from "../api";
+import { getData } from "../api";
 
 export default {
   name: "Animes",
-  data() {
-    return {
-      animes: null,
-      page: 1,
-    };
-  },
   methods: {
     async getNextPage() {
-      this.page++;
-      const response = await getPage(this.page);
-      this.animes = response.data.results;
+      const response = await getData(this.animes_data.next);
+      this.$store.dispatch("animes_data", response.data);
       scrollTo(0, 0);
     },
     async getPreviousPage() {
-      this.page--;
-      const response = await getPage(this.page);
-      this.animes = response.data.results;
+      const response = await getData(this.animes_data.previous);
+      this.$store.dispatch("animes_data", response.data);
       scrollTo(0, 0);
     },
   },
   computed: {
     ...mapGetters(["user"]),
+    ...mapGetters(["animes_data"]),
   },
   async created() {
-    const response = await getPage(this.page);
-    this.animes = response.data.results;
+    const response = await getData("api-v1/animes/");
+    this.$store.dispatch("animes_data", response.data);
   },
 };
 </script>

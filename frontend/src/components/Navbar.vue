@@ -57,8 +57,12 @@
             >
           </li>
         </ul>
-        <form class="col-12 col-lg-auto mb-3 mb-lg-0">
+        <form
+          @submit.prevent="getUserSearch(user_input)"
+          class="col-12 col-lg-auto mb-3 mb-lg-0"
+        >
           <input
+            v-model="user_input"
             type="search"
             class="form-control"
             placeholder="Search..."
@@ -87,10 +91,22 @@
 
 <script>
 import { mapGetters } from "vuex";
+import { getData } from "../api";
 
 export default {
   name: "Navbar",
+  data() {
+    return {
+      animes_data: null,
+      user_input: null,
+    };
+  },
   methods: {
+    async getUserSearch(user_input) {
+      const response = await getData(`api-v1/animes/?search=${user_input}`);
+      this.animes_data = response.data;
+      this.$store.dispatch("animes_data", this.animes_data);
+    },
     handleClick() {
       localStorage.removeItem("access_token");
       this.$store.dispatch("user", null);
