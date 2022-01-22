@@ -7,7 +7,7 @@ export default createStore({
   getters: {
     user: (state) => {
       return state.user;
-    }
+    },
   },
   mutations: {
     user(state, user) {
@@ -17,6 +17,6 @@ export default createStore({
   actions: {
     user(context, user) {
       context.commit("user", user);
-    }
+    },
   },
 })
