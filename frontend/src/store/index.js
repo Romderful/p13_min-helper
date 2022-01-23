@@ -3,18 +3,18 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     user: null,
-    animes_data: null,
-    user_input: "",
+    animesData: null,
+    userInput: "",
   },
   getters: {
     getUser: (state) => {
       return state.user;
     },
     getUserInput: (state) => {
-      return state.user_input
+      return state.userInput
     },
     getAnimesData: (state) => {
-      return state.animes_data
+      return state.animesData
     }
   },
   mutations: {
@@ -24,8 +24,8 @@ export default createStore({
     updateUserInput(state, user_input) {
       state.user_input = user_input;
     },
-    updateAnimesData(state, animes_data) {
-      state.animes_data = animes_data;
+    updateAnimesData(state, animesData) {
+      state.animesData = animesData;
     }
   },
   actions: {
@@ -35,8 +35,8 @@ export default createStore({
     updateUserInput(context, user_input) {
       context.commit("updateUserInput", user_input);
     },
-    updateAnimesData(context, animes_data) {
-      context.commit("updateAnimesData", animes_data);
+    updateAnimesData(context, animesData) {
+      context.commit("updateAnimesData", animesData);
     }
   },
 })

@@ -40,7 +40,7 @@
     </button>
   </div>
   <div v-else class="container animes">
-    <Error :message="error_message" />
+    <Error :message="errorMessage" />
   </div>
 </template>
 
@@ -56,7 +56,7 @@ export default {
   },
   data() {
     return {
-      error_message: "No results found for your search",
+      errorMessage: "No results found for your search",
     };
   },
   methods: {
@@ -83,8 +83,7 @@ export default {
       );
       this.$store.dispatch("updateAnimesData", response.data);
     } catch (e) {
-      this.error_message =
-        "You first need to login to access to all the animes";
+      this.errorMessage = "You first need to login to access to all the animes";
     }
   },
 };
