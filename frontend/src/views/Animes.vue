@@ -1,5 +1,5 @@
 <template>
-  <div v-if="getUser" class="container animes">
+  <div v-if="getUser && !getAnimesData.count == 0" class="container animes">
     <div
       class="container mb-3"
       v-for="anime in getAnimesData.results"
@@ -39,14 +39,26 @@
       Next
     </button>
   </div>
+  <div v-else class="container animes">
+    <Error :message="error_message" />
+  </div>
 </template>
 
 <script>
+import Error from "../components/Error.vue";
 import { mapGetters } from "vuex";
 import { getData } from "../api";
 
 export default {
   name: "Animes",
+  components: {
+    Error,
+  },
+  data() {
+    return {
+      error_message: "No results found for your search",
+    };
+  },
   methods: {
     async getNextPage() {
       const response = await getData(this.getAnimesData.next);
@@ -65,10 +77,15 @@ export default {
     ...mapGetters(["getUserInput"]),
   },
   async created() {
-    const response = await getData(
-      `api-v1/animes/?search=${this.getUserInput}`
-    );
-    this.$store.dispatch("updateAnimesData", response.data);
+    try {
+      const response = await getData(
+        `api-v1/animes/?search=${this.getUserInput}`
+      );
+      this.$store.dispatch("updateAnimesData", response.data);
+    } catch (e) {
+      this.error_message =
+        "You first need to login to access to all the animes";
+    }
   },
 };
 </script>
