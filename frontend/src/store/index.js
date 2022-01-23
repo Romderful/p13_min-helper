@@ -21,8 +21,8 @@ export default createStore({
     updateUser(state, user) {
       state.user = user;
     },
-    updateUserInput(state, user_input) {
-      state.user_input = user_input;
+    updateUserInput(state, userInput) {
+      state.userInput = userInput;
     },
     updateAnimesData(state, animesData) {
       state.animesData = animesData;
@@ -32,8 +32,8 @@ export default createStore({
     updateUser(context, user) {
       context.commit("updateUser", user);
     },
-    updateUserInput(context, user_input) {
-      context.commit("updateUserInput", user_input);
+    updateUserInput(context, userInput) {
+      context.commit("updateUserInput", userInput);
     },
     updateAnimesData(context, animesData) {
       context.commit("updateAnimesData", animesData);
