@@ -31,7 +31,13 @@
     >
       Previous
     </button>
-    <button class="btn btn-primary" @click="getNextPage">Next</button>
+    <button
+      v-if="getAnimesData.next"
+      class="btn btn-primary"
+      @click="getNextPage"
+    >
+      Next
+    </button>
   </div>
 </template>
 
@@ -56,9 +62,12 @@ export default {
   computed: {
     ...mapGetters(["getUser"]),
     ...mapGetters(["getAnimesData"]),
+    ...mapGetters(["getUserInput"]),
   },
   async created() {
-    const response = await getData("api-v1/animes/");
+    const response = await getData(
+      `api-v1/animes/?search=${this.getUserInput}`
+    );
     this.$store.dispatch("updateAnimesData", response.data);
   },
 };
