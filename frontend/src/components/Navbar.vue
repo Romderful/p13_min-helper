@@ -57,19 +57,9 @@
             >
           </li>
         </ul>
-        <form
-          v-if="getUser"
-          @submit.prevent="getUserSearch"
-          class="col-12 col-lg-auto mb-3 mb-lg-0"
-        >
-          <input
-            v-model="user_input"
-            type="search"
-            class="form-control"
-            placeholder="Search..."
-            aria-label="Search"
-          />
-        </form>
+        <div v-if="getUser">
+          <SearchBar />
+        </div>
       </div>
     </nav>
     <header class="py-3 mb-5 bg-white border-bottom">
@@ -91,30 +81,15 @@
 </template>
 
 <script>
+import SearchBar from "./SearchBar.vue";
 import { mapGetters } from "vuex";
-import { getData } from "../api";
 
 export default {
   name: "Navbar",
-  data() {
-    return {
-      animes_data: null,
-      user_input: null,
-    };
+  components: {
+    SearchBar,
   },
   methods: {
-    async getUserSearch() {
-      this.$store.dispatch("updateUserInput", this.user_input);
-      if (this.$route.name == "Animes") {
-        const response = await getData(
-          `api-v1/animes/?search=${this.getUserInput}`
-        );
-        this.$store.dispatch("updateAnimesData", response.data);
-      } else {
-        this.$router.push("Animes");
-      }
-      this.user_input = "";
-    },
     handleLogout() {
       localStorage.removeItem("access_token");
       this.$store.dispatch("updateUser", null);
@@ -123,7 +98,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getUser"]),
-    ...mapGetters(["getUserInput"]),
   },
 };
 </script>
