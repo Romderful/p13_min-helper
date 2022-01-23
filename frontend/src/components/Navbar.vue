@@ -25,7 +25,10 @@
             >
           </li>
           <li class="nav-item col-12 col-lg-auto">
-            <router-link to="animes" class="nav-link link-dark px-2"
+            <router-link
+              to="animes"
+              @click="clearUserInput"
+              class="nav-link link-dark px-2"
               >Browse</router-link
             >
           </li>
@@ -95,9 +98,13 @@ export default {
       this.$store.dispatch("updateUser", null);
       this.$router.push("/");
     },
+    clearUserInput() {
+      this.$store.dispatch("updateUserInput", "");
+    },
   },
   computed: {
     ...mapGetters(["getUser"]),
+    ...mapGetters(["getUserInput"]),
   },
 };
 </script>

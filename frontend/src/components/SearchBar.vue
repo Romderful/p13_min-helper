@@ -33,7 +33,6 @@ export default {
         this.$router.push("Animes");
       }
       this.user_input = "";
-      this.$store.dispatch("updateUserInput", "");
     },
   },
   computed: {
