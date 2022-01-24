@@ -1,6 +1,7 @@
 """Animes models."""
 
 from django.db import models
+from django.contrib.auth import get_user_model
 
 
 class Category(models.Model):
@@ -35,3 +36,14 @@ class Anime(models.Model):
     def __str__(self) -> str:
         """Display the english name of the anime in the admin panel."""
         return self.english_name
+
+
+class Favourite(models.Model):
+    """Favourite's table."""
+
+    user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
+    anime = models.ForeignKey(Anime, on_delete=models.PROTECT)
+
+    def __str__(self) -> str:
+        """Display the email of the user in the admin panel."""
+        return self.user.email
