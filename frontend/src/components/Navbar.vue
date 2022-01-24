@@ -117,4 +117,11 @@ export default {
 .auth {
   margin-right: 2rem;
 }
+.nav-link {
+  transition: 0.4s ease-out;
+}
+.nav-link:hover {
+  transition: 0.4s ease-out;
+  opacity: 0.8;
+}
 </style>
