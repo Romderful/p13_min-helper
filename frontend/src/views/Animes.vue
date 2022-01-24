@@ -14,9 +14,11 @@
             <img class="animes-cover-images" :src="anime.cover_image" />
           </div>
           <div class="col-12 col-lg-10 mt-3">
-            <h6 class="animes-descriptions" v-if="anime.description">
-              {{ anime.description }}
-            </h6>
+            <h6
+              v-html="anime.description"
+              class="animes-descriptions"
+              v-if="anime.description"
+            ></h6>
             <h6 class="animes-descriptions" v-if="!anime.description">
               No description available yet (」°ロ°)
             </h6>
