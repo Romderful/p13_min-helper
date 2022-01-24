@@ -1,45 +1,36 @@
 <template>
   <div v-if="getUser && !getAnimesData.count == 0" class="container animes">
-    <div
-      class="container mb-3"
-      v-for="anime in getAnimesData.results"
-      :key="anime.id"
-    >
-      <div class="card anime-cards p-3">
-        <div class="card-title">
-          <h4>{{ anime.english_name }}</h4>
-        </div>
-        <div class="card-body row">
-          <div class="col-12 col-lg-2">
-            <img class="animes-cover-images" :src="anime.cover_image" />
-          </div>
-          <div class="col-12 col-lg-10 mt-3">
-            <h6
-              v-html="anime.description"
-              class="animes-descriptions"
-              v-if="anime.description"
-            ></h6>
-            <h6 class="animes-descriptions" v-if="!anime.description">
-              No description available yet (」°ロ°)
-            </h6>
-          </div>
+    <div class="row mb-5">
+      <div
+        class="container mb-3 col-6 col-lg-2"
+        v-for="anime in getAnimesData.results"
+        :key="anime.id"
+      >
+        <div class="card border-0">
+          <div class="anime-cover-image"></div>
+          <img class="anime-cover-image" :src="anime.cover_image" />
+          <p class="anime-name">
+            <strong>{{ anime.english_name }}</strong>
+          </p>
         </div>
       </div>
     </div>
-    <button
-      v-if="getAnimesData.previous"
-      class="btn btn-primary me-2"
-      @click="getPreviousPage"
-    >
-      Previous
-    </button>
-    <button
-      v-if="getAnimesData.next"
-      class="btn btn-primary"
-      @click="getNextPage"
-    >
-      Next
-    </button>
+    <div class="container">
+      <button
+        v-if="getAnimesData.previous"
+        class="btn btn-primary me-2"
+        @click="getPreviousPage"
+      >
+        Previous
+      </button>
+      <button
+        v-if="getAnimesData.next"
+        class="btn btn-primary"
+        @click="getNextPage"
+      >
+        Next
+      </button>
+    </div>
   </div>
   <div v-else class="container animes">
     <Error :message="errorMessage" />
@@ -92,24 +83,18 @@ export default {
 </script>
 
 <style>
-.animes-descriptions {
-  text-align: justify;
-  display: -webkit-box;
-  overflow: hidden;
-  -webkit-line-clamp: 5;
-  -webkit-box-orient: vertical;
-  -webkit-box-align: center;
-}
-.animes-cover-images {
-  max-width: 65%;
-  border-radius: 5px;
-}
-.anime-cards:hover {
-  box-shadow: 0 2px 5px 0 rgba(79, 82, 87, 0.5),
-    0 2px 10px 0 rgba(79, 82, 87, 0.5);
-}
 .animes {
   margin-bottom: 7rem;
   margin-top: 15rem;
+}
+.anime-name {
+  text-align: left;
+}
+.anime-cover-image {
+  border-radius: 5px;
+  max-width: 180px;
+  max-height: 250px;
+  width: auto;
+  height: auto;
 }
 </style>
