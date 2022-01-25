@@ -36,7 +36,7 @@
     v-if="getUser && !getAnimesData.count == 0"
     class="container animes-wrapper"
   >
-    <div class="row mb-5">
+    <div class="row mb-3">
       <div
         class="container mb-3 col-6 col-lg-2"
         v-for="anime in getAnimesData.results"
@@ -141,7 +141,5 @@ export default {
   border-radius: 5px;
   max-width: 196px;
   max-height: 270px;
-  width: auto;
-  height: auto;
 }
 </style>
