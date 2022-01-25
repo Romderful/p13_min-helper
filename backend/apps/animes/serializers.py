@@ -1,7 +1,7 @@
 """Animes serializers."""
 
 from rest_framework import serializers
-from .models import Anime
+from .models import Anime, Category
 
 
 class AnimeSerializer(serializers.ModelSerializer):
@@ -13,4 +13,12 @@ class AnimeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Anime
+        fields = "__all__"
+
+
+class CategorySerializer(serializers.ModelSerializer):
+    """Categories serializer."""
+
+    class Meta:
+        model = Category
         fields = "__all__"
