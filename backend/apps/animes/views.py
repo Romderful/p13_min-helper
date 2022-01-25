@@ -17,7 +17,7 @@ class AnimeViewSet(viewsets.ReadOnlyModelViewSet):
     ordering_fields = ["start_date", "end_date", "score"]
 
     def get_queryset(self):
-        queryset = Anime.objects.all().order_by("-score")
+        queryset = Anime.objects.all().order_by("-start_date")
         category = self.request.query_params.get("categories")
         if category is not None:
             queryset = queryset.filter(categories__name=category.title())
