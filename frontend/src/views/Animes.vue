@@ -2,22 +2,21 @@
   <div class="container mb-5" v-if="getUser">
     <div class="container row" style="max-width: 600px; margin: auto">
       <div class="container col-lg-6 col-12 mb-3">
-        <label class="form-label">Datalist example</label>
+        <label class="form-label">Categories</label>
         <input
           class="form-control"
           list="datalistOptions"
           placeholder="Type to search..."
+          @click="getCategories"
         />
         <datalist id="datalistOptions">
-          <option value="San Francisco"></option>
-          <option value="New York"></option>
-          <option value="Seattle"></option>
-          <option value="Los Angeles"></option>
-          <option value="Chicago"></option>
+          <option v-for="category in this.categoriesData" :key="category.id">
+            {{ category.name }}
+          </option>
         </datalist>
       </div>
       <div class="container col-lg-6 col-12">
-        <label class="form-label">Datalist example</label>
+        <label class="form-label">test</label>
         <input
           class="form-control"
           list="datalistOptions"
@@ -87,9 +86,14 @@ export default {
   data() {
     return {
       errorMessage: "No results found for your search",
+      categoriesData: null,
     };
   },
   methods: {
+    async getCategories() {
+      const response = await getData("api-v1/animes-categories");
+      this.categoriesData = response.data.results;
+    },
     async getNextPage() {
       const response = await getData(this.getAnimesData.next);
       this.$store.dispatch("updateAnimesData", response.data);
