@@ -2,11 +2,10 @@
   <div class="container mb-5" v-if="getUser">
     <div class="container row" style="max-width: 600px; margin: auto">
       <div class="container col-lg-6 col-12 mb-3">
-        <label for="exampleDataList" class="form-label">Datalist example</label>
+        <label class="form-label">Datalist example</label>
         <input
           class="form-control"
           list="datalistOptions"
-          id="exampleDataList"
           placeholder="Type to search..."
         />
         <datalist id="datalistOptions">
@@ -18,11 +17,10 @@
         </datalist>
       </div>
       <div class="container col-lg-6 col-12">
-        <label for="exampleDataList" class="form-label">Datalist example</label>
+        <label class="form-label">Datalist example</label>
         <input
           class="form-control"
           list="datalistOptions"
-          id="exampleDataList"
           placeholder="Type to search..."
         />
         <datalist id="datalistOptions">
