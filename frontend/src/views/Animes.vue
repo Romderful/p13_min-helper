@@ -7,7 +7,9 @@
           class="form-control"
           list="datalistOptions"
           placeholder="Type to search..."
+          v-model="selectedCategory"
           @click="getCategories"
+          @change="getAnimesFromSelectedCategory"
         />
         <datalist id="datalistOptions">
           <option v-for="category in this.categoriesData" :key="category.id">
@@ -19,10 +21,10 @@
         <label class="form-label">test</label>
         <input
           class="form-control"
-          list="datalistOptions"
+          list="datalistOptions1"
           placeholder="Type to search..."
         />
-        <datalist id="datalistOptions">
+        <datalist id="datalistOptions1">
           <option value="San Francisco"></option>
           <option value="New York"></option>
           <option value="Seattle"></option>
@@ -87,9 +89,17 @@ export default {
     return {
       errorMessage: "No results found for your search",
       categoriesData: null,
+      selectedCategory: null,
     };
   },
   methods: {
+    async getAnimesFromSelectedCategory() {
+      const response = await getData(
+        `api-v1/animes/?categories=${this.selectedCategory}`
+      );
+      this.$store.dispatch("updateAnimesData", response.data);
+      this.selectedCategory = "";
+    },
     async getCategories() {
       const response = await getData("api-v1/animes-categories");
       this.categoriesData = response.data.results;
