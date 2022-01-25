@@ -4,6 +4,8 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets
 from .models import Anime, Category
 from .serializers import AnimeSerializer, CategorySerializer
+from .pagination import LargeResultsSetPagination
+
 
 
 class AnimeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -27,3 +29,5 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 
     queryset = Category.objects.all().order_by("name")
     serializer_class = CategorySerializer
+    pagination_class = LargeResultsSetPagination
+
