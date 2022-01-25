@@ -1,4 +1,38 @@
 <template>
+  <div class="container mb-5" v-if="getUser">
+    <div class="container row" style="max-width: 600px; margin: auto">
+      <div class="container col-lg-6 col-12 mb-3">
+        <label class="form-label">Datalist example</label>
+        <input
+          class="form-control"
+          list="datalistOptions"
+          placeholder="Type to search..."
+        />
+        <datalist id="datalistOptions">
+          <option value="San Francisco"></option>
+          <option value="New York"></option>
+          <option value="Seattle"></option>
+          <option value="Los Angeles"></option>
+          <option value="Chicago"></option>
+        </datalist>
+      </div>
+      <div class="container col-lg-6 col-12">
+        <label class="form-label">Datalist example</label>
+        <input
+          class="form-control"
+          list="datalistOptions"
+          placeholder="Type to search..."
+        />
+        <datalist id="datalistOptions">
+          <option value="San Francisco"></option>
+          <option value="New York"></option>
+          <option value="Seattle"></option>
+          <option value="Los Angeles"></option>
+          <option value="Chicago"></option>
+        </datalist>
+      </div>
+    </div>
+  </div>
   <div
     v-if="getUser && !getAnimesData.count == 0"
     class="container animes-wrapper"
@@ -35,7 +69,7 @@
       </button>
     </div>
   </div>
-  <div v-else class="container animes-wrapper">
+  <div v-else class="container">
     <Error :message="errorMessage" />
   </div>
 </template>
@@ -88,7 +122,6 @@ export default {
 <style>
 .animes-wrapper {
   margin-bottom: 7rem;
-  margin-top: 15rem;
 }
 .anime-card {
   transition: 0.4s ease-out;
