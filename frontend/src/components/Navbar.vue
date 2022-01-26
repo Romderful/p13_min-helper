@@ -85,6 +85,7 @@
 
 <script>
 import SearchBar from "./SearchBar.vue";
+import { getData } from "../api";
 import { mapGetters } from "vuex";
 
 export default {
@@ -98,8 +99,12 @@ export default {
       this.$store.dispatch("updateUser", null);
       this.$router.push("/");
     },
-    clearUserInput() {
+    async clearUserInput() {
       this.$store.dispatch("updateUserInput", "");
+      const response = await getData(
+        `api-v1/animes/?search=${this.getUserInput}`
+      );
+      this.$store.dispatch("updateAnimesData", response.data);
     },
   },
   computed: {

@@ -2,7 +2,7 @@
   <div class="container mb-5" v-if="getUser">
     <div class="container row" style="max-width: 600px; margin: auto">
       <div class="container col-lg-6 col-12 mb-3">
-        <label class="form-label">Categories</label>
+        <label class="form-label"><b>Genres</b></label>
         <input
           class="form-control"
           list="datalistOptions"
@@ -39,19 +39,21 @@
     class="container animes-wrapper"
   >
     <div class="row mb-3">
-      <div
-        class="container mb-3 col-6 col-lg-2"
-        v-for="anime in getAnimesData.results"
-        :key="anime.id"
-      >
-        <div class="anime-card card border-0">
-          <div class="anime-cover-image"></div>
-          <img class="anime-cover-image" :src="anime.cover_image" />
-          <p class="anime-name">
-            <strong>{{ anime.english_name }}</strong>
-          </p>
+      <transition-group name="fade" appear>
+        <div
+          class="container mb-3 col-6 col-lg-2"
+          v-for="anime in getAnimesData.results"
+          :key="anime.id"
+        >
+          <div class="anime-card card border-0">
+            <div class="anime-cover-image"></div>
+            <img class="anime-cover-image" :src="anime.cover_image" />
+            <p class="anime-name">
+              <strong>{{ anime.english_name }}</strong>
+            </p>
+          </div>
         </div>
-      </div>
+      </transition-group>
     </div>
     <div class="container">
       <button
@@ -151,5 +153,13 @@ export default {
   border-radius: 5px;
   max-width: 196px;
   max-height: 270px;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: all 1s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>
