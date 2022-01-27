@@ -6,31 +6,28 @@
         <input
           class="form-control"
           list="datalistOptions"
-          placeholder="Type to search..."
+          placeholder="Any"
           v-model="selectedCategory"
-          @click="getCategories"
-          @change="getAnimesFromSelectedCategory"
+          @change="getAnimesFiltered"
         />
         <datalist id="datalistOptions">
-          <option v-for="category in this.categoriesData" :key="category.id">
+          <option v-for="category in categoriesData" :key="category.id">
             {{ category.name }}
           </option>
         </datalist>
       </div>
       <div class="container col-lg-6 col-12">
-        <label class="form-label">test</label>
-        <input
-          class="form-control"
-          list="datalistOptions1"
-          placeholder="Type to search..."
-        />
-        <datalist id="datalistOptions1">
-          <option value="San Francisco"></option>
-          <option value="New York"></option>
-          <option value="Seattle"></option>
-          <option value="Los Angeles"></option>
-          <option value="Chicago"></option>
-        </datalist>
+        <label class="form-label"><b>Scoring</b></label>
+        <select
+          v-model="selectedScore"
+          @change="getAnimesFiltered"
+          class="form-select"
+          aria-label="Default select example"
+        >
+          <option selected>Any</option>
+          <option value="bestScore">Best</option>
+          <option value="lowestScore">Lowest</option>
+        </select>
       </div>
     </div>
   </div>
@@ -92,18 +89,43 @@ export default {
       errorMessage: "No results found for your search",
       categoriesData: null,
       selectedCategory: null,
+      selectedScore: "Any",
     };
   },
   methods: {
-    async getAnimesFromSelectedCategory() {
-      const response = await getData(
-        `api-v1/animes/?categories=${this.selectedCategory}`
-      );
-      this.$store.dispatch("updateAnimesData", response.data);
-      this.selectedCategory = "";
+    async getAnimesFiltered() {
+      if (this.selectedCategory) {
+        if (this.selectedScore == "bestScore") {
+          const response = await getData(
+            `api-v1/animes/?categories=${this.selectedCategory}&ordering=-score`
+          );
+          this.$store.dispatch("updateAnimesData", response.data);
+        } else if (this.selectedScore == "lowestScore") {
+          const response = await getData(
+            `api-v1/animes/?categories=${this.selectedCategory}&ordering=score`
+          );
+          this.$store.dispatch("updateAnimesData", response.data);
+        } else if (this.selectedScore == "Any") {
+          const response = await getData(
+            `api-v1/animes/?categories=${this.selectedCategory}`
+          );
+          this.$store.dispatch("updateAnimesData", response.data);
+        }
+      } else {
+        if (this.selectedScore == "bestScore") {
+          const response = await getData("api-v1/animes/?ordering=-score");
+          this.$store.dispatch("updateAnimesData", response.data);
+        } else if (this.selectedScore == "lowestScore") {
+          const response = await getData("api-v1/animes/?ordering=score");
+          this.$store.dispatch("updateAnimesData", response.data);
+        } else if (this.selectedScore == "Any") {
+          const response = await getData("api-v1/animes/");
+          this.$store.dispatch("updateAnimesData", response.data);
+        }
+      }
     },
     async getCategories() {
-      const response = await getData("api-v1/animes-categories");
+      const response = await getData("api-v1/animes-categories/");
       this.categoriesData = response.data.results;
     },
     async getNextPage() {
@@ -127,6 +149,7 @@ export default {
       const response = await getData(
         `api-v1/animes/?search=${this.getUserInput}`
       );
+      this.getCategories();
       this.$store.dispatch("updateAnimesData", response.data);
     } catch (e) {
       this.errorMessage = "You first need to login to access to all the animes";

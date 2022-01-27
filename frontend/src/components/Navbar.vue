@@ -27,7 +27,7 @@
           <li class="nav-item col-12 col-lg-auto">
             <router-link
               to="animes"
-              @click="clearUserInput"
+              @click="clearUserInputAndReload"
               class="nav-link link-dark px-2"
               >Browse</router-link
             >
@@ -99,12 +99,12 @@ export default {
       this.$store.dispatch("updateUser", null);
       this.$router.push("/");
     },
-    async clearUserInput() {
+    async clearUserInputAndReload() {
       this.$store.dispatch("updateUserInput", "");
-      const response = await getData(
-        `api-v1/animes/?search=${this.getUserInput}`
-      );
-      this.$store.dispatch("updateAnimesData", response.data);
+      if (this.$route.name == "Animes") {
+        const response = await getData("api-v1/animes/");
+        this.$store.dispatch("updateAnimesData", response.data);
+      }
     },
   },
   computed: {

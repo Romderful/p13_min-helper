@@ -7,7 +7,6 @@ from .serializers import AnimeSerializer, CategorySerializer
 from .pagination import LargeResultsSetPagination
 
 
-
 class AnimeViewSet(viewsets.ReadOnlyModelViewSet):
     """Animes model viewset."""
 
@@ -30,4 +29,3 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all().order_by("name")
     serializer_class = CategorySerializer
     pagination_class = LargeResultsSetPagination
-
