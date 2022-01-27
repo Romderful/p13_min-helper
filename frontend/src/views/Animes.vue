@@ -76,7 +76,7 @@
 
 <script>
 import Error from "../components/Error.vue";
-import { mapGetters } from "vuex";
+import { mapGetters, mapState } from "vuex";
 import { getData } from "../api";
 
 export default {
@@ -108,6 +108,23 @@ export default {
         } else if (this.selectedScore == "Any") {
           const response = await getData(
             `api-v1/animes/?categories=${this.selectedCategory}`
+          );
+          this.$store.dispatch("updateAnimesData", response.data);
+        }
+      } else if (this.getUserInput && isNaN(this.getUserInput)) {
+        if (this.selectedScore == "bestScore") {
+          const response = await getData(
+            `api-v1/animes/?search=${this.getUserInput}&ordering=-score`
+          );
+          this.$store.dispatch("updateAnimesData", response.data);
+        } else if (this.selectedScore == "lowestScore") {
+          const response = await getData(
+            `api-v1/animes/?search=${this.getUserInput}&ordering=score`
+          );
+          this.$store.dispatch("updateAnimesData", response.data);
+        } else if (this.selectedScore == "Any") {
+          const response = await getData(
+            `api-v1/animes/?search=${this.getUserInput}`
           );
           this.$store.dispatch("updateAnimesData", response.data);
         }
@@ -143,12 +160,19 @@ export default {
     ...mapGetters(["getUser"]),
     ...mapGetters(["getAnimesData"]),
     ...mapGetters(["getUserInput"]),
+    ...mapState(["userInput"]),
+  },
+  watch: {
+    userInput(newValue, oldValue) {
+      if (oldValue != newValue) {
+        this.selectedScore = "Any";
+        this.selectedCategory = null;
+      }
+    },
   },
   async created() {
     try {
-      const response = await getData(
-        `api-v1/animes/?search=${this.getUserInput}`
-      );
+      const response = await getData("api-v1/animes/");
       this.getCategories();
       this.$store.dispatch("updateAnimesData", response.data);
     } catch (e) {

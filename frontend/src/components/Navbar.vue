@@ -93,6 +93,11 @@ export default {
   components: {
     SearchBar,
   },
+  data() {
+    return {
+      counter: 0,
+    };
+  },
   methods: {
     handleLogout() {
       localStorage.removeItem("access_token");
@@ -100,8 +105,9 @@ export default {
       this.$router.push("/");
     },
     async clearUserInputAndReload() {
-      this.$store.dispatch("updateUserInput", "");
       if (this.$route.name == "Animes") {
+        this.counter++;
+        this.$store.dispatch("updateUserInput", this.counter);
         const response = await getData("api-v1/animes/");
         this.$store.dispatch("updateAnimesData", response.data);
       }
@@ -109,7 +115,6 @@ export default {
   },
   computed: {
     ...mapGetters(["getUser"]),
-    ...mapGetters(["getUserInput"]),
   },
 };
 </script>
