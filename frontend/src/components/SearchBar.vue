@@ -24,14 +24,14 @@ export default {
   methods: {
     async getUserSearch() {
       this.$store.dispatch("updateUserInput", this.userInput);
-      if (this.$route.name == "Animes") {
-        const response = await getData(
-          `api-v1/animes/?search=${this.getUserInput}`
-        );
-        this.$store.dispatch("updateAnimesData", response.data);
-      } else {
-        this.$router.push("Animes");
-      }
+      this.$router.push({
+        name: "Animes",
+        params: { data: this.userInput },
+      });
+      const response = await getData(
+        `api-v1/animes/?search=${this.getUserInput}`
+      );
+      this.$store.dispatch("updateAnimesData", response.data);
       this.userInput = "";
     },
   },

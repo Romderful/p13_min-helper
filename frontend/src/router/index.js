@@ -29,7 +29,7 @@ const routes = [
     component: Signup
   },
   {
-    path: '/animes',
+    path: '/animes/search/:data?',
     name: 'Animes',
     component: Animes
   },
