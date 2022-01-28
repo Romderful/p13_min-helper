@@ -42,13 +42,17 @@
           v-for="anime in getAnimesData.results"
           :key="anime.id"
         >
-          <div class="anime-card card border-0">
-            <div class="anime-cover-image"></div>
-            <img class="anime-cover-image" :src="anime.cover_image" />
-            <p class="anime-name">
-              <strong>{{ anime.english_name }}</strong>
-            </p>
-          </div>
+          <router-link
+            class="router-link"
+            :to="{ name: 'AnimesDetails', params: { id: anime.id } }"
+          >
+            <div class="anime-card card border-0">
+              <img class="anime-cover-image" :src="anime.cover_image" />
+              <p class="anime-name">
+                <strong>{{ anime.english_name }}</strong>
+              </p>
+            </div></router-link
+          >
         </div>
       </transition-group>
     </div>
@@ -208,5 +212,9 @@ export default {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+.router-link {
+  text-decoration: none;
+  color: black;
 }
 </style>

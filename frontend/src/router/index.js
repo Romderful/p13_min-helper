@@ -4,6 +4,8 @@ import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import Animes from "../views/Animes.vue"
+import AnimesDetails from "../views/AnimesDetails.vue"
+
 
 const routes = [
   {
@@ -30,6 +32,12 @@ const routes = [
     path: '/animes',
     name: 'Animes',
     component: Animes
+  },
+  {
+    path: '/animes/:id',
+    name: 'AnimesDetails',
+    component: AnimesDetails,
+    props: true,
   }
 ]
 

@@ -26,7 +26,7 @@
           </li>
           <li class="nav-item col-12 col-lg-auto">
             <router-link
-              to="animes"
+              to="/animes"
               @click="clearUserInputAndReload"
               class="nav-link link-dark px-2"
               >Browse</router-link
