@@ -84,7 +84,7 @@ import { mapGetters, mapState } from "vuex";
 import { getData } from "../api";
 
 export default {
-  name: "Animes",
+  name: "AnimeList",
   components: {
     Error,
   },

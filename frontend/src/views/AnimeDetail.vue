@@ -14,7 +14,7 @@ import { mapGetters } from "vuex";
 import { getData } from "../api";
 
 export default {
-  name: "AnimesDetails",
+  name: "AnimeDetail",
   props: ["id"],
   data() {
     return {

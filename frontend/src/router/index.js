@@ -3,8 +3,8 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
-import Animes from "../views/Animes.vue"
-import AnimesDetails from "../views/AnimesDetails.vue"
+import AnimeList from "../views/AnimeList.vue"
+import AnimeDetail from "../views/AnimeDetail.vue"
 
 
 const routes = [
@@ -30,13 +30,13 @@ const routes = [
   },
   {
     path: '/animes',
-    name: 'Animes',
-    component: Animes
+    name: 'AnimeList',
+    component: AnimeList
   },
   {
-    path: '/animes/:id',
-    name: 'AnimesDetails',
-    component: AnimesDetails,
+    path: '/anime/:id',
+    name: 'AnimeDetail',
+    component: AnimeDetail,
     props: true,
   }
 ]

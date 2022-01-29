@@ -12,7 +12,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getData } from "../api";
+import { getData } from "../../api";
 
 export default {
   name: "SearchBar",
@@ -24,7 +24,7 @@ export default {
   methods: {
     async getUserSearch() {
       this.$store.dispatch("updateUserInput", this.userInput);
-      this.$router.push({ name: "Animes" });
+      this.$router.push({ name: "AnimeList" });
       const response = await getData(
         `api-v1/animes/?search=${this.getUserInput}`
       );

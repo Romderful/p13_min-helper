@@ -28,7 +28,7 @@
           </li>
           <li class="nav-item col-12 col-lg-auto">
             <router-link
-              :to="{ name: 'Animes' }"
+              :to="{ name: 'AnimeList' }"
               @click="clearUserInputAndReload"
               class="nav-link link-dark px-2"
               >Browse</router-link
@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import SearchBar from "./SearchBar.vue";
+import SearchBar from "../components/Navbar/SearchBar.vue";
 import { getData } from "../api";
 import { mapGetters } from "vuex";
 
@@ -109,7 +109,7 @@ export default {
       this.$router.push("/");
     },
     async clearUserInputAndReload() {
-      if (this.$route.name == "Animes") {
+      if (this.$route.name == "AnimeList") {
         this.counter++;
         this.$store.dispatch("updateUserInput", this.counter);
         const response = await getData("api-v1/animes/");
