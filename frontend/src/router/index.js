@@ -31,14 +31,14 @@ const routes = [
   {
     path: '/animes',
     name: 'AnimeList',
-    component: AnimeList
+    component: AnimeList,
   },
   {
     path: '/anime/:id',
     name: 'AnimeDetail',
     component: AnimeDetail,
     props: true,
-  }
+  },
 ]
 
 const router = createRouter({

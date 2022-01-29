@@ -44,7 +44,7 @@
         >
           <router-link
             class="router-link"
-            :to="{ name: 'AnimesDetails', params: { id: anime.id } }"
+            :to="{ name: 'AnimeDetail', params: { id: anime.id } }"
           >
             <div class="anime-card card border-0">
               <img class="anime-cover-image" :src="anime.cover_image" />
@@ -56,22 +56,7 @@
         </div>
       </transition-group>
     </div>
-    <div class="container">
-      <button
-        v-if="getAnimesData.previous"
-        class="btn btn-primary me-2"
-        @click="getPreviousPage"
-      >
-        Previous
-      </button>
-      <button
-        v-if="getAnimesData.next"
-        class="btn btn-primary"
-        @click="getNextPage"
-      >
-        Next
-      </button>
-    </div>
+    <Pagination />
   </div>
   <div v-else class="container">
     <Error :message="errorMessage" />
@@ -80,6 +65,7 @@
 
 <script>
 import Error from "../components/Error.vue";
+import Pagination from "../components/Pagination.vue";
 import { mapGetters, mapState } from "vuex";
 import { getData } from "../api";
 
@@ -87,6 +73,7 @@ export default {
   name: "AnimeList",
   components: {
     Error,
+    Pagination,
   },
   data() {
     return {
@@ -148,16 +135,6 @@ export default {
     async getCategories() {
       const response = await getData("api-v1/animes-categories/");
       this.categoriesData = response.data.results;
-    },
-    async getNextPage() {
-      const response = await getData(this.getAnimesData.next);
-      this.$store.dispatch("updateAnimesData", response.data);
-      scrollTo(0, 0);
-    },
-    async getPreviousPage() {
-      const response = await getData(this.getAnimesData.previous);
-      this.$store.dispatch("updateAnimesData", response.data);
-      scrollTo(0, 0);
     },
   },
   computed: {

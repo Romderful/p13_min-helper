@@ -12,7 +12,7 @@
 
 <script>
 import { mapGetters } from "vuex";
-import { getData } from "../../api";
+import { getData } from "../api";
 
 export default {
   name: "SearchBar",

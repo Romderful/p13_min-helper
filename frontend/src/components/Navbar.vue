@@ -88,7 +88,7 @@
 </template>
 
 <script>
-import SearchBar from "../components/Navbar/SearchBar.vue";
+import SearchBar from "./SearchBar.vue";
 import { getData } from "../api";
 import { mapGetters } from "vuex";
 
