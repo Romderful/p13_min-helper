@@ -1,7 +1,7 @@
 <template>
   <footer class="footer">
     <div class="container">
-      <router-link to="about" class="nav-link link-dark px-2"
+      <router-link :to="{ name: 'About' }" class="nav-link link-dark px-2"
         >About</router-link
       >
     </div>

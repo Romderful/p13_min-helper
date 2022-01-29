@@ -20,13 +20,15 @@
       >
         <ul class="nav me-auto">
           <li class="nav-item col-12 col-lg-auto">
-            <router-link to="/" class="nav-link link-dark px-2 active"
+            <router-link
+              :to="{ name: 'Home' }"
+              class="nav-link link-dark px-2 active"
               >Home</router-link
             >
           </li>
           <li class="nav-item col-12 col-lg-auto">
             <router-link
-              to="/animes/search"
+              :to="{ name: 'Animes' }"
               @click="clearUserInputAndReload"
               class="nav-link link-dark px-2"
               >Browse</router-link
@@ -35,12 +37,14 @@
         </ul>
         <ul v-if="!getUser" class="nav auth">
           <li class="nav-item col-12 col-lg-auto">
-            <router-link to="log-in" class="nav-link link-dark px-2"
+            <router-link :to="{ name: 'Login' }" class="nav-link link-dark px-2"
               >Login</router-link
             >
           </li>
           <li class="nav-item col-12 col-lg-auto">
-            <router-link to="sign-up" class="nav-link link-dark px-2"
+            <router-link
+              :to="{ name: 'Signup' }"
+              class="nav-link link-dark px-2"
               >Sign up</router-link
             >
           </li>
@@ -68,7 +72,7 @@
     <header class="py-3 mb-5 bg-white border-bottom">
       <div class="container d-flex flex-wrap justify-content-center">
         <router-link
-          to="/"
+          :to="{ name: 'Home' }"
           class="
             d-flex
             align-items-center
