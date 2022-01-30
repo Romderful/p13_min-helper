@@ -6,7 +6,7 @@
         <input
           class="form-control"
           list="datalistOptions"
-          placeholder="Any"
+          placeholder="any"
           v-model="selectedCategory"
           @change="getAnimesFiltered"
         />
@@ -24,9 +24,9 @@
           class="form-select"
           aria-label="Default select example"
         >
-          <option selected>Any</option>
-          <option value="bestScore">Best</option>
-          <option value="lowestScore">Lowest</option>
+          <option selected>any</option>
+          <option value="best-score">Best</option>
+          <option value="low-score">Lowest</option>
         </select>
       </div>
     </div>
@@ -80,57 +80,61 @@ export default {
       errorMessage: "No results found for your search",
       categoriesData: null,
       selectedCategory: null,
-      selectedScore: "Any",
+      selectedScore: "any",
     };
   },
   methods: {
     async getAnimesFiltered() {
       if (this.selectedCategory) {
-        if (this.selectedScore == "bestScore") {
+        if (this.selectedScore == "best-score") {
           const response = await getData(
             `api-v1/animes/?categories=${this.selectedCategory}&ordering=-score`
           );
           this.$store.dispatch("updateAnimesData", response.data);
-        } else if (this.selectedScore == "lowestScore") {
+        } else if (this.selectedScore == "low-score") {
           const response = await getData(
             `api-v1/animes/?categories=${this.selectedCategory}&ordering=score`
           );
           this.$store.dispatch("updateAnimesData", response.data);
-        } else if (this.selectedScore == "Any") {
+        } else if (this.selectedScore == "any") {
           const response = await getData(
             `api-v1/animes/?categories=${this.selectedCategory}`
           );
           this.$store.dispatch("updateAnimesData", response.data);
         }
       } else if (this.getUserInput && isNaN(this.getUserInput)) {
-        if (this.selectedScore == "bestScore") {
+        if (this.selectedScore == "best-score") {
           const response = await getData(
             `api-v1/animes/?search=${this.getUserInput}&ordering=-score`
           );
           this.$store.dispatch("updateAnimesData", response.data);
-        } else if (this.selectedScore == "lowestScore") {
+        } else if (this.selectedScore == "low-score") {
           const response = await getData(
             `api-v1/animes/?search=${this.getUserInput}&ordering=score`
           );
           this.$store.dispatch("updateAnimesData", response.data);
-        } else if (this.selectedScore == "Any") {
+        } else if (this.selectedScore == "any") {
           const response = await getData(
             `api-v1/animes/?search=${this.getUserInput}`
           );
           this.$store.dispatch("updateAnimesData", response.data);
         }
       } else {
-        if (this.selectedScore == "bestScore") {
+        if (this.selectedScore == "best-score") {
           const response = await getData("api-v1/animes/?ordering=-score");
           this.$store.dispatch("updateAnimesData", response.data);
-        } else if (this.selectedScore == "lowestScore") {
+        } else if (this.selectedScore == "low-score") {
           const response = await getData("api-v1/animes/?ordering=score");
           this.$store.dispatch("updateAnimesData", response.data);
-        } else if (this.selectedScore == "Any") {
+        } else if (this.selectedScore == "any") {
           const response = await getData("api-v1/animes/");
           this.$store.dispatch("updateAnimesData", response.data);
         }
       }
+      this.$router.push({
+        name: "AnimeFilter",
+        params: { genre: this.selectedCategory, score: this.selectedScore },
+      });
     },
     async getCategories() {
       const response = await getData("api-v1/animes-categories/");

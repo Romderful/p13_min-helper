@@ -29,12 +29,22 @@ const routes = [
     component: Signup
   },
   {
-    path: '/animes',
+    path: '/animes/:data?',
     name: 'AnimeList',
     component: AnimeList,
   },
   {
-    path: '/anime/:id',
+    path: '/animes/:genre?/:score?',
+    name: 'AnimeFilter',
+    component: AnimeList,
+  },
+  {
+    path: '/animes/:data?/page/:page',
+    name: 'Pagination',
+    component: AnimeList,
+  },
+  {
+    path: '/animes/:id',
     name: 'AnimeDetail',
     component: AnimeDetail,
     props: true,

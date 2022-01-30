@@ -30,6 +30,10 @@ export default {
       );
       this.$store.dispatch("updateAnimesData", response.data);
       this.userInput = "";
+      this.$router.push({
+        name: "AnimeList",
+        params: { data: this.getUserInput },
+      });
     },
   },
   computed: {

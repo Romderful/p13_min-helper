@@ -109,12 +109,10 @@ export default {
       this.$router.push("/");
     },
     async clearUserInputAndReload() {
-      if (this.$route.name == "AnimeList") {
-        this.counter++;
-        this.$store.dispatch("updateUserInput", this.counter);
-        const response = await getData("api-v1/animes/");
-        this.$store.dispatch("updateAnimesData", response.data);
-      }
+      this.counter++;
+      this.$store.dispatch("updateUserInput", this.counter);
+      const response = await getData("api-v1/animes/");
+      this.$store.dispatch("updateAnimesData", response.data);
     },
   },
   computed: {
