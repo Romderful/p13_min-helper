@@ -23,24 +23,15 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Pagination",
-  data() {
-    return {
-      page: 1,
-    };
-  },
   methods: {
     async getNextPage() {
-      this.page++;
       const response = await getData(this.getAnimesData.next);
       this.$store.dispatch("updateAnimesData", response.data);
-      this.$router.push({ name: "AnimeList", query: { page: this.page } });
       scrollTo(0, 0);
     },
     async getPreviousPage() {
-      this.page--;
       const response = await getData(this.getAnimesData.previous);
       this.$store.dispatch("updateAnimesData", response.data);
-      this.$router.push({ name: "AnimeList", query: { page: this.page } });
       scrollTo(0, 0);
     },
   },
