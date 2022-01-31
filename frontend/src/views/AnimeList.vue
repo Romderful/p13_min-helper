@@ -132,7 +132,6 @@ export default {
         }
       }
       this.$router.push({
-        name: "AnimeList",
         query: { genre: this.selectedCategory, score: this.selectedScore },
       });
     },
@@ -155,14 +154,8 @@ export default {
       }
     },
   },
-  async mounted() {
-    try {
-      const response = await getData("api-v1/animes/");
-      this.getCategories();
-      this.$store.dispatch("updateAnimesData", response.data);
-    } catch (e) {
-      this.errorMessage = "You first need to login to access to all the animes";
-    }
+  mounted() {
+    this.getCategories();
   },
 };
 </script>
