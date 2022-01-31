@@ -131,10 +131,6 @@ export default {
           this.$store.dispatch("updateAnimesData", response.data);
         }
       }
-      this.$router.push({
-        name: "AnimeFilter",
-        params: { genre: this.selectedCategory, score: this.selectedScore },
-      });
     },
     async getCategories() {
       const response = await getData("api-v1/animes-categories/");
@@ -155,7 +151,7 @@ export default {
       }
     },
   },
-  async created() {
+  async mounted() {
     try {
       const response = await getData("api-v1/animes/");
       this.getCategories();

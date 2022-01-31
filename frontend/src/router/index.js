@@ -29,18 +29,8 @@ const routes = [
     component: Signup
   },
   {
-    path: '/animes/:data?',
+    path: '/animes',
     name: 'AnimeList',
-    component: AnimeList,
-  },
-  {
-    path: '/animes/:genre?/:score?',
-    name: 'AnimeFilter',
-    component: AnimeList,
-  },
-  {
-    path: '/animes/:data?/page/:page',
-    name: 'Pagination',
     component: AnimeList,
   },
   {
