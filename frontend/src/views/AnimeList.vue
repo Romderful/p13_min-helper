@@ -159,7 +159,6 @@ export default {
   },
   mounted() {
     this.selectedCategory = this.$route.query.genre;
-    this.selectedScore = this.$route.query.score;
   },
 };
 </script>
