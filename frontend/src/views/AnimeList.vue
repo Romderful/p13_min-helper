@@ -79,7 +79,7 @@ export default {
     return {
       errorMessage: "No results found for your search",
       categoriesData: null,
-      selectedCategory: null,
+      selectedCategory: "",
       selectedScore: "any",
     };
   },
@@ -154,8 +154,12 @@ export default {
       }
     },
   },
-  mounted() {
+  created() {
     this.getCategories();
+  },
+  mounted() {
+    this.selectedCategory = this.$route.query.genre;
+    this.selectedScore = this.$route.query.score;
   },
 };
 </script>
