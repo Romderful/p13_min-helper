@@ -28,7 +28,13 @@
           </li>
           <li class="nav-item col-12 col-lg-auto">
             <router-link
-              :to="{ name: 'AnimeList' }"
+              :to="{
+                name: 'AnimeList',
+                query: {
+                  genre: null,
+                  score: 'any',
+                },
+              }"
               @click="clearUserInputAndReload"
               class="nav-link link-dark px-2"
               >Browse</router-link
