@@ -26,7 +26,7 @@ export default {
       this.$store.dispatch("updateUserInput", this.userInput);
       this.$router.push({
         name: "AnimeList",
-        query: { name: this.getUserInput },
+        query: { name: this.getUserInput, score: "any" },
       });
       if (this.$route.name != "AnimeList") {
         const response = await getData(

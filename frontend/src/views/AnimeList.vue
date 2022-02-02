@@ -22,7 +22,6 @@
           v-model="selectedScore"
           @change="goToScore(selectedScore)"
           class="form-select"
-          aria-label="Default select example"
         >
           <option value="any">any</option>
           <option value="-score">best</option>
@@ -88,24 +87,24 @@ export default {
         }
       } else if (!this.$route.query.genre) {
         if (this.$route.query.score) {
-          const response = await getData(
-            `api-v1/animes/?ordering=${this.$route.query.score}`
-          );
-          this.$store.dispatch("updateAnimesData", response.data.results);
-        } else {
           if (this.$route.query.name) {
+            this.selectedGenre = null;
             const response = await getData(
-              `api-v1/animes/?search=${this.$route.query.name}`
+              `api-v1/animes/?search=${this.$route.query.name}&ordering=${this.$route.query.score}`
             );
             this.$store.dispatch("updateAnimesData", response.data.results);
-            this.selectedScore = "any";
-            this.selectedGenre = null;
+            this.selectedScore = this.$route.query.score;
           } else {
-            const response = await getData("api-v1/animes/");
+            const response = await getData(
+              `api-v1/animes/?ordering=${this.$route.query.score}`
+            );
             this.$store.dispatch("updateAnimesData", response.data.results);
-            this.selectedScore = "any";
-            this.selectedGenre = null;
           }
+        } else {
+          const response = await getData("api-v1/animes/");
+          this.$store.dispatch("updateAnimesData", response.data.results);
+          this.selectedScore = "any";
+          this.selectedGenre = null;
         }
       }
     },
@@ -124,6 +123,7 @@ export default {
       this.categoriesData = response.data.results;
     },
     goToGenre(genre) {
+      this.selectedScore = "any";
       if (this.selectedScore) {
         this.$router.push({
           query: { genre: genre, score: this.selectedScore },
@@ -138,9 +138,15 @@ export default {
           query: { genre: this.selectedGenre, score: score },
         });
       } else {
-        this.$router.push({
-          query: { score: score },
-        });
+        if (isNaN(this.getUserInput)) {
+          this.$router.push({
+            query: { name: this.getUserInput, score: score },
+          });
+        } else {
+          this.$router.push({
+            query: { score: score },
+          });
+        }
       }
     },
   },
