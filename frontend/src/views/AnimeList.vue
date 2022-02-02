@@ -79,11 +79,14 @@ export default {
             `api-v1/animes/?categories=${this.$route.query.genre}&ordering=${this.$route.query.score}`
           );
           this.$store.dispatch("updateAnimesData", response.data.results);
+          this.selectedScore = this.$route.query.score;
+          this.selectedGenre = this.$route.query.genre;
         } else {
           const response = await getData(
             `api-v1/animes/?categories=${this.$route.query.genre}`
           );
           this.$store.dispatch("updateAnimesData", response.data.results);
+          this.selectedGenre = this.$route.query.genre;
         }
       } else if (!this.$route.query.genre) {
         if (this.$route.query.score) {
@@ -99,6 +102,7 @@ export default {
               `api-v1/animes/?ordering=${this.$route.query.score}`
             );
             this.$store.dispatch("updateAnimesData", response.data.results);
+            this.selectedScore = this.$route.query.score;
           }
         } else {
           const response = await getData("api-v1/animes/");
