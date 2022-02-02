@@ -8,11 +8,7 @@
           list="datalistOptions"
           placeholder="any"
           v-model="selectedGenre"
-<<<<<<< HEAD
-          @change="getAnimesFiltered(selectedGenre, selectedScore)"
-=======
           @change="goToGenre(selectedGenre)"
->>>>>>> frontend
         />
         <datalist id="datalistOptions">
           <option v-for="category in categoriesData" :key="category.id">
@@ -24,21 +20,12 @@
         <label class="form-label"><b>Scoring</b></label>
         <select
           v-model="selectedScore"
-<<<<<<< HEAD
-          @change="getAnimesFiltered(selectedGenre, selectedScore)"
-=======
           @change="goToScore(selectedScore)"
->>>>>>> frontend
           class="form-select"
         >
           <option value="any">any</option>
-<<<<<<< HEAD
-          <option value="best-score">best</option>
-          <option value="low-score">lowest</option>
-=======
           <option value="-score">best</option>
           <option value="score">lowest</option>
->>>>>>> frontend
         </select>
       </div>
     </div>
@@ -84,73 +71,23 @@ export default {
     Error,
     // Pagination,
   },
-<<<<<<< HEAD
-  data() {
-    return {
-      errorMessage: "No results found for your search",
-      categoriesData: null,
-      selectedGenre: null,
-      selectedScore: "any",
-    };
-  },
-  methods: {
-    async getAnimesFiltered(genre, score) {
-      if (genre) {
-        if (score == "best-score") {
-          const response = await getData(
-            `api-v1/animes/?categories=${genre}&ordering=-score`
-          );
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "low-score") {
-          const response = await getData(
-            `api-v1/animes/?categories=${genre}&ordering=score`
-          );
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "any") {
-          const response = await getData(`api-v1/animes/?categories=${genre}`);
-          this.$store.dispatch("updateAnimesData", response.data);
-        }
-      } else if (this.getUserInput && isNaN(this.getUserInput)) {
-        if (score == "best-score") {
-          const response = await getData(
-            `api-v1/animes/?search=${this.getUserInput}&ordering=-score`
-          );
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "low-score") {
-=======
   watch: {
     async $route() {
       if (this.$route.query.genre) {
         if (this.$route.query.score) {
->>>>>>> frontend
           const response = await getData(
             `api-v1/animes/?categories=${this.$route.query.genre}&ordering=${this.$route.query.score}`
           );
-<<<<<<< HEAD
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "any") {
-=======
           this.$store.dispatch("updateAnimesData", response.data.results);
           this.selectedScore = this.$route.query.score;
           this.selectedGenre = this.$route.query.genre;
         } else {
->>>>>>> frontend
           const response = await getData(
             `api-v1/animes/?categories=${this.$route.query.genre}`
           );
           this.$store.dispatch("updateAnimesData", response.data.results);
           this.selectedGenre = this.$route.query.genre;
         }
-<<<<<<< HEAD
-      } else {
-        if (score == "best-score") {
-          const response = await getData("api-v1/animes/?ordering=-score");
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "low-score") {
-          const response = await getData("api-v1/animes/?ordering=score");
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "any") {
-=======
       } else if (!this.$route.query.genre) {
         if (this.$route.query.score) {
           if (this.$route.query.name) {
@@ -168,19 +105,12 @@ export default {
             this.selectedScore = this.$route.query.score;
           }
         } else {
->>>>>>> frontend
           const response = await getData("api-v1/animes/");
           this.$store.dispatch("updateAnimesData", response.data.results);
           this.selectedScore = "any";
           this.selectedGenre = null;
         }
       }
-<<<<<<< HEAD
-      this.$router.push({
-        query: { genre: genre, score: score },
-      });
-=======
->>>>>>> frontend
     },
   },
   data() {
@@ -229,20 +159,8 @@ export default {
     ...mapGetters(["getAnimesData"]),
     ...mapGetters(["getUserInput"]),
   },
-<<<<<<< HEAD
-  mounted() {
-    this.getCategories();
-    const genre = this.$route.query.genre;
-    const score = this.$route.query.score;
-    if (genre || score) {
-      this.selectedGenre = genre;
-      this.selectedScore = score;
-      this.getAnimesFiltered(genre, score);
-    }
-=======
   async created() {
     this.getCategories();
->>>>>>> frontend
   },
 };
 </script>
