@@ -8,7 +8,7 @@
           list="datalistOptions"
           placeholder="any"
           v-model="selectedGenre"
-          @change="getAnimesFiltered(selectedGenre, selectedScore)"
+          @change="goToGenre(selectedGenre)"
         />
         <datalist id="datalistOptions">
           <option v-for="category in categoriesData" :key="category.id">
@@ -20,26 +20,23 @@
         <label class="form-label"><b>Scoring</b></label>
         <select
           v-model="selectedScore"
-          @change="getAnimesFiltered(selectedGenre, selectedScore)"
+          @change="goToScore(selectedScore)"
           class="form-select"
           aria-label="Default select example"
         >
           <option value="any">any</option>
-          <option value="best-score">best</option>
-          <option value="low-score">lowest</option>
+          <option value="-score">best</option>
+          <option value="score">lowest</option>
         </select>
       </div>
     </div>
   </div>
-  <div
-    v-if="getUser && !getAnimesData.count == 0"
-    class="container animes-wrapper"
-  >
+  <div v-if="getUser" class="container animes-wrapper">
     <div class="row mb-3">
       <transition-group name="fade" appear>
         <div
           class="container mb-3 col-6 col-lg-2"
-          v-for="anime in getAnimesData.results"
+          v-for="anime in getAnimesData"
           :key="anime.id"
         >
           <router-link
@@ -56,7 +53,7 @@
         </div>
       </transition-group>
     </div>
-    <Pagination />
+    <!-- <Pagination /> -->
   </div>
   <div v-else class="container">
     <Error :message="errorMessage" />
@@ -65,94 +62,88 @@
 
 <script>
 import Error from "../components/Error.vue";
-import Pagination from "../components/Pagination.vue";
-import { mapGetters, mapState } from "vuex";
+// import Pagination from "../components/Pagination.vue";
+import { mapGetters } from "vuex";
 import { getData } from "../api";
 
 export default {
   name: "AnimeList",
   components: {
     Error,
-    Pagination,
+    // Pagination,
+  },
+  watch: {
+    async $route() {
+      if (this.$route.query.genre) {
+        if (this.$route.query.score) {
+          const response = await getData(
+            `api-v1/animes/?categories=${this.$route.query.genre}&ordering=${this.$route.query.score}`
+          );
+          this.$store.dispatch("updateAnimesData", response.data.results);
+        } else {
+          const response = await getData(
+            `api-v1/animes/?categories=${this.$route.query.genre}`
+          );
+          this.$store.dispatch("updateAnimesData", response.data.results);
+        }
+      } else if (!this.$route.query.genre) {
+        if (this.$route.query.score) {
+          const response = await getData(
+            `api-v1/animes/?ordering=${this.$route.query.score}`
+          );
+          this.$store.dispatch("updateAnimesData", response.data.results);
+        } else {
+          const response = await getData("api-v1/animes/");
+          this.$store.dispatch("updateAnimesData", response.data.results);
+          this.selectedScore = "any";
+          this.selectedGenre = null;
+        }
+      }
+    },
   },
   data() {
     return {
-      errorMessage: "No results found for your search",
+      errorMessage: "No data could be found",
       categoriesData: null,
-      selectedGenre: null,
       selectedScore: "any",
+      selectedGenre: null,
     };
   },
   methods: {
-    async getAnimesFiltered(genre, score) {
-      if (genre) {
-        if (score == "best-score") {
-          const response = await getData(
-            `api-v1/animes/?categories=${genre}&ordering=-score`
-          );
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "low-score") {
-          const response = await getData(
-            `api-v1/animes/?categories=${genre}&ordering=score`
-          );
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "any") {
-          const response = await getData(`api-v1/animes/?categories=${genre}`);
-          this.$store.dispatch("updateAnimesData", response.data);
-        }
-      } else if (this.getUserInput && isNaN(this.getUserInput)) {
-        if (score == "best-score") {
-          const response = await getData(
-            `api-v1/animes/?search=${this.getUserInput}&ordering=-score`
-          );
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "low-score") {
-          const response = await getData(
-            `api-v1/animes/?search=${this.getUserInput}&ordering=score`
-          );
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "any") {
-          const response = await getData(
-            `api-v1/animes/?search=${this.getUserInput}`
-          );
-          this.$store.dispatch("updateAnimesData", response.data);
-        }
-      } else {
-        if (score == "best-score") {
-          const response = await getData("api-v1/animes/?ordering=-score");
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "low-score") {
-          const response = await getData("api-v1/animes/?ordering=score");
-          this.$store.dispatch("updateAnimesData", response.data);
-        } else if (score == "any") {
-          const response = await getData("api-v1/animes/");
-          this.$store.dispatch("updateAnimesData", response.data);
-        }
-      }
-      this.$router.push({
-        query: { genre: genre, score: score },
-      });
-    },
     async getCategories() {
       const response = await getData("api-v1/animes-categories/");
       this.categoriesData = response.data.results;
+    },
+    goToGenre(genre) {
+      if (this.selectedScore) {
+        this.$router.push({
+          query: { genre: genre, score: this.selectedScore },
+        });
+      } else {
+        this.$router.push({ query: { genre: genre } });
+      }
+    },
+    goToScore(score) {
+      if (this.selectedGenre) {
+        this.$router.push({
+          query: { genre: this.selectedGenre, score: score },
+        });
+      } else {
+        this.$router.push({
+          query: { score: score },
+        });
+      }
     },
   },
   computed: {
     ...mapGetters(["getUser"]),
     ...mapGetters(["getAnimesData"]),
     ...mapGetters(["getUserInput"]),
-    ...mapState(["userInput"]),
   },
-  mounted() {
+  async created() {
     this.getCategories();
-    const genre = this.$route.query.genre;
-    const score = this.$route.query.score;
-    if (genre || score) {
-      this.selectedGenre = genre;
-      this.selectedScore = score;
-      this.getAnimesFiltered(genre, score);
-    }
+    const response = await getData("api-v1/animes/");
+    this.$store.dispatch("updateAnimesData", response.data.results);
   },
 };
 </script>
