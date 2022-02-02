@@ -93,10 +93,19 @@ export default {
           );
           this.$store.dispatch("updateAnimesData", response.data.results);
         } else {
-          const response = await getData("api-v1/animes/");
-          this.$store.dispatch("updateAnimesData", response.data.results);
-          this.selectedScore = "any";
-          this.selectedGenre = null;
+          if (this.$route.query.name) {
+            const response = await getData(
+              `api-v1/animes/?search=${this.$route.query.name}`
+            );
+            this.$store.dispatch("updateAnimesData", response.data.results);
+            this.selectedScore = "any";
+            this.selectedGenre = null;
+          } else {
+            const response = await getData("api-v1/animes/");
+            this.$store.dispatch("updateAnimesData", response.data.results);
+            this.selectedScore = "any";
+            this.selectedGenre = null;
+          }
         }
       }
     },
@@ -105,8 +114,8 @@ export default {
     return {
       errorMessage: "No data could be found",
       categoriesData: null,
-      selectedScore: "any",
       selectedGenre: null,
+      selectedScore: "any",
     };
   },
   methods: {
@@ -142,8 +151,6 @@ export default {
   },
   async created() {
     this.getCategories();
-    const response = await getData("api-v1/animes/");
-    this.$store.dispatch("updateAnimesData", response.data.results);
   },
 };
 </script>

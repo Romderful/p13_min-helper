@@ -91,6 +91,7 @@
 
 <script>
 import SearchBar from "./SearchBar.vue";
+import { getData } from "../api";
 import { mapGetters } from "vuex";
 
 export default {
@@ -112,6 +113,10 @@ export default {
     async clearUserInputAndReload() {
       this.counter++;
       this.$store.dispatch("updateUserInput", this.counter);
+      if (this.$route.name != "AnimeList") {
+        const response = await getData("api-v1/animes/");
+        this.$store.dispatch("updateAnimesData", response.data.results);
+      }
     },
   },
   computed: {
