@@ -30,10 +30,13 @@
             <router-link
               :to="{
                 name: 'AnimeList',
+<<<<<<< HEAD
                 query: {
                   genre: null,
                   score: 'any',
                 },
+=======
+>>>>>>> frontend
               }"
               @click="clearUserInputAndReload"
               class="nav-link link-dark px-2"
@@ -117,8 +120,10 @@ export default {
     async clearUserInputAndReload() {
       this.counter++;
       this.$store.dispatch("updateUserInput", this.counter);
-      const response = await getData("api-v1/animes/");
-      this.$store.dispatch("updateAnimesData", response.data);
+      if (this.$route.name != "AnimeList") {
+        const response = await getData("api-v1/animes/");
+        this.$store.dispatch("updateAnimesData", response.data.results);
+      }
     },
   },
   computed: {

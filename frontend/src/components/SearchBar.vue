@@ -24,11 +24,16 @@ export default {
   methods: {
     async getUserSearch() {
       this.$store.dispatch("updateUserInput", this.userInput);
-      this.$router.push({ name: "AnimeList" });
-      const response = await getData(
-        `api-v1/animes/?search=${this.getUserInput}`
-      );
-      this.$store.dispatch("updateAnimesData", response.data);
+      this.$router.push({
+        name: "AnimeList",
+        query: { name: this.getUserInput, score: "any" },
+      });
+      if (this.$route.name != "AnimeList") {
+        const response = await getData(
+          `api-v1/animes/?search=${this.getUserInput}`
+        );
+        this.$store.dispatch("updateAnimesData", response.data.results);
+      }
       this.userInput = "";
     },
   },
