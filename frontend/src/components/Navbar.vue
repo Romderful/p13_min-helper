@@ -30,13 +30,6 @@
             <router-link
               :to="{
                 name: 'AnimeList',
-<<<<<<< HEAD
-                query: {
-                  genre: null,
-                  score: 'any',
-                },
-=======
->>>>>>> frontend
               }"
               @click="clearUserInputAndReload"
               class="nav-link link-dark px-2"
