@@ -76,14 +76,14 @@ export default {
       if (this.$route.query.genre) {
         if (this.$route.query.score) {
           const response = await getData(
-            `api-v1/animes/?categories=${this.$route.query.genre}&ordering=${this.$route.query.score}`
+            `api-v1/animes/?categories=${this.$route.query.genre}&ordering=${this.$route.query.score}&page=${this.$route.query.page}`
           );
           this.$store.dispatch("updateAnimesData", response.data);
           this.selectedScore = this.$route.query.score;
           this.selectedGenre = this.$route.query.genre;
         } else {
           const response = await getData(
-            `api-v1/animes/?categories=${this.$route.query.genre}`
+            `api-v1/animes/?categories=${this.$route.query.genre}&page=${this.$route.query.page}`
           );
           this.$store.dispatch("updateAnimesData", response.data);
           this.selectedGenre = this.$route.query.genre;
@@ -93,13 +93,13 @@ export default {
           if (this.$route.query.name) {
             this.selectedGenre = null;
             const response = await getData(
-              `api-v1/animes/?search=${this.$route.query.name}&ordering=${this.$route.query.score}`
+              `api-v1/animes/?search=${this.$route.query.name}&ordering=${this.$route.query.score}&page=${this.$route.query.page}`
             );
             this.$store.dispatch("updateAnimesData", response.data);
             this.selectedScore = this.$route.query.score;
           } else {
             const response = await getData(
-              `api-v1/animes/?ordering=${this.$route.query.score}`
+              `api-v1/animes/?ordering=${this.$route.query.score}&page=${this.$route.query.page}`
             );
             this.$store.dispatch("updateAnimesData", response.data);
             this.selectedScore = this.$route.query.score;
@@ -119,6 +119,7 @@ export default {
       categoriesData: "",
       selectedGenre: "",
       selectedScore: "any",
+      page: 1,
     };
   },
   methods: {
@@ -127,28 +128,44 @@ export default {
       this.categoriesData = response.data;
     },
     goToGenre(genre) {
+      this.$route.query.page = 1;
       this.selectedScore = "any";
       if (this.selectedScore) {
         this.$router.push({
-          query: { genre: genre, score: this.selectedScore },
+          query: {
+            genre: genre,
+            score: this.selectedScore,
+            page: this.$route.query.page,
+          },
         });
       } else {
-        this.$router.push({ query: { genre: genre } });
+        this.$router.push({
+          query: { genre: genre, page: this.$route.query.page },
+        });
       }
     },
     goToScore(score) {
+      this.$route.query.page = 1;
       if (this.selectedGenre) {
         this.$router.push({
-          query: { genre: this.selectedGenre, score: score },
+          query: {
+            genre: this.selectedGenre,
+            score: score,
+            page: this.$route.query.page,
+          },
         });
       } else {
         if (isNaN(this.getUserInput)) {
           this.$router.push({
-            query: { name: this.getUserInput, score: score },
+            query: {
+              name: this.getUserInput,
+              score: score,
+              page: this.$route.query.page,
+            },
           });
         } else {
           this.$router.push({
-            query: { score: score },
+            query: { score: score, page: this.$route.query.page },
           });
         }
       }

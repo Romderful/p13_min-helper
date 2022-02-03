@@ -18,20 +18,28 @@
 </template>
 
 <script>
-import { getData } from "../api";
 import { mapGetters } from "vuex";
 
 export default {
   name: "Pagination",
+  data() {
+    return {
+      page: 1,
+    };
+  },
   methods: {
     async getNextPage() {
-      const response = await getData(this.getAnimesData.next);
-      this.$store.dispatch("updateAnimesData", response.data);
+      this.page = this.$route.query.page;
+      this.page++;
+      const query = { ...this.$route.query, page: this.page };
+      this.$router.push({ query });
       scrollTo(0, 0);
     },
     async getPreviousPage() {
-      const response = await getData(this.getAnimesData.previous);
-      this.$store.dispatch("updateAnimesData", response.data);
+      this.page = this.$route.query.page;
+      this.page--;
+      const query = { ...this.$route.query, page: this.page };
+      this.$router.push({ query });
       scrollTo(0, 0);
     },
   },

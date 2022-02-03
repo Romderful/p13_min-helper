@@ -30,6 +30,7 @@
             <router-link
               :to="{
                 name: 'AnimeList',
+                query: { page: 1 },
               }"
               @click="clearUserInputAndReload"
               class="nav-link link-dark px-2"
