@@ -33,14 +33,12 @@ export default {
       this.page++;
       const query = { ...this.$route.query, page: this.page };
       this.$router.push({ query });
-      scrollTo(0, 0);
     },
     async getPreviousPage() {
       this.page = this.$route.query.page;
       this.page--;
       const query = { ...this.$route.query, page: this.page };
       this.$router.push({ query });
-      scrollTo(0, 0);
     },
   },
   computed: {
