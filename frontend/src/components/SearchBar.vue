@@ -32,7 +32,7 @@ export default {
         const response = await getData(
           `api-v1/animes/?search=${this.getUserInput}`
         );
-        this.$store.dispatch("updateAnimesData", response.data.results);
+        this.$store.dispatch("updateAnimesData", response.data);
       }
       this.userInput = "";
     },

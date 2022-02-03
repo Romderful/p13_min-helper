@@ -115,7 +115,7 @@ export default {
       this.$store.dispatch("updateUserInput", this.counter);
       if (this.$route.name != "AnimeList") {
         const response = await getData("api-v1/animes/");
-        this.$store.dispatch("updateAnimesData", response.data.results);
+        this.$store.dispatch("updateAnimesData", response.data);
       }
     },
   },
