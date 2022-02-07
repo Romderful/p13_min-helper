@@ -73,48 +73,27 @@ export default {
   },
   watch: {
     async $route() {
-      if (this.$route.name == "AnimeList") {
-        if (this.$route.query.genre) {
-          if (this.$route.query.score) {
-            const response = await getData(
-              `api-v1/animes/?categories=${this.$route.query.genre}&ordering=${this.$route.query.score}&page=${this.$route.query.page}`
-            );
-            this.$store.dispatch("updateAnimesData", response.data);
-            this.selectedScore = this.$route.query.score;
-            this.selectedGenre = this.$route.query.genre;
-          } else {
-            const response = await getData(
-              `api-v1/animes/?categories=${this.$route.query.genre}&page=${this.$route.query.page}`
-            );
-            this.$store.dispatch("updateAnimesData", response.data);
-            this.selectedGenre = this.$route.query.genre;
-          }
-        } else if (!this.$route.query.genre) {
-          if (this.$route.query.score) {
-            if (this.$route.query.name) {
-              this.selectedGenre = null;
-              const response = await getData(
-                `api-v1/animes/?search=${this.$route.query.name}&ordering=${this.$route.query.score}&page=${this.$route.query.page}`
-              );
-              this.$store.dispatch("updateAnimesData", response.data);
-              this.selectedScore = this.$route.query.score;
-            } else {
-              const response = await getData(
-                `api-v1/animes/?ordering=${this.$route.query.score}&page=${this.$route.query.page}`
-              );
-              this.$store.dispatch("updateAnimesData", response.data);
-              this.selectedScore = this.$route.query.score;
-            }
-          } else {
-            const response = await getData(
-              `api-v1/animes/?page=${this.$route.query.page}`
-            );
-            this.$store.dispatch("updateAnimesData", response.data);
-            this.selectedScore = "any";
-            this.selectedGenre = null;
-          }
-        }
+      if (this.$route.name !== "AnimeList") {
+        return;
       }
+      let params = "?";
+      if (this.$route.query.genre) {
+        params += `categories=${this.$route.query.genre}`;
+        this.selectedGenre = this.$route.query.genre;
+      } else {
+        this.selectedGenre = "";
+      }
+      if (this.$route.query.score) {
+        params += `&ordering=${this.$route.query.score}`;
+        this.selectedScore = this.$route.query.score;
+      }
+      if (this.$route.query.name) {
+        params += `&search=${this.$route.query.name}`;
+        this.selectedGenre = "";
+      }
+      params += `&page=${this.$route.query.page}`;
+      const response = await getData(`api-v1/animes/${params}`);
+      this.$store.dispatch("updateAnimesData", response.data);
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
   },
