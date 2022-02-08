@@ -10,10 +10,21 @@ class AnimeSerializer(serializers.ModelSerializer):
     linked_animes = serializers.SerializerMethodField()
 
     def get_linked_animes(self, anime: Anime):
-        """Return the animes that matches with the same genres."""
+        """Return the animes that matches with the same categories."""
+        substitutes = {}
         my_categories = anime.categories.all()
-        animes = Anime.objects.filter(categories__in=my_categories)[:9]
-        return [anime.english_name for anime in animes]
+        animes = Anime.objects.filter(categories__in=my_categories)
+
+        for anime in animes[:10]:
+            selected_anime = [cat for cat in my_categories]
+            linked_anime = [cat for cat in anime.categories.all()]
+            similar_categories = len(set(selected_anime).intersection(linked_anime))
+            substitutes[anime.english_name] = similar_categories
+
+        substitutes = dict(sorted(substitutes.items(), key=lambda item: item[1])[::-1])
+        sorted_substitutes = [anime for anime in substitutes]
+
+        return sorted_substitutes
 
     categories = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="name"
