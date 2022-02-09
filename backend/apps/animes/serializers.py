@@ -15,7 +15,7 @@ class AnimeSerializer(serializers.ModelSerializer):
         my_categories = anime.categories.all()
         animes = Anime.objects.filter(categories__in=my_categories)
 
-        for anime in animes[:5]:
+        for anime in animes[:12]:
             selected_anime = [cat for cat in my_categories]
             linked_anime = [cat for cat in anime.categories.all()]
             similar_categories = len(set(selected_anime).intersection(linked_anime))

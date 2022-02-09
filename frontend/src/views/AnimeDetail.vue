@@ -40,7 +40,19 @@ export default {
   name: "AnimeDetail",
   props: ["id"],
   watch: {
-    async $route() {},
+    async $route() {
+      if (this.$route.name !== "AnimeDetail") {
+        return;
+      }
+      this.linkedAnimesData = [];
+      const response = await getData(`api-v1/animes/${this.$route.params.id}/`);
+      this.animeData = response.data;
+      let linkedAnimesId = Object.values(this.animeData.linked_animes);
+      for (const id of linkedAnimesId) {
+        this.getLinkedAnimes(id);
+      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
   },
   data() {
     return {
