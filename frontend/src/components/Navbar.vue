@@ -73,7 +73,10 @@
       </div>
     </nav>
     <header class="py-3 mb-5 bg-white border-bottom">
-      <div class="container d-flex flex-wrap justify-content-center">
+      <div
+        class="container d-flex flex-wrap justify-content-center"
+        style="padding: 0"
+      >
         <router-link
           :to="{ name: 'Home' }"
           class="

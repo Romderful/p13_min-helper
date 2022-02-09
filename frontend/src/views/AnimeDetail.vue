@@ -1,13 +1,24 @@
 <template>
-  <div
-    v-if="animeData.description"
-    v-html="animeData.description"
-    class="container"
-  ></div>
-  <div v-else class="container">
-    <p>We're sorry, the description isn't available yet.</p>
+  <div class="container mb-5" style="text-align: left; padding: 0">
+    <div class="container mb-5">
+      <h2>Description</h2>
+    </div>
+    <div
+      v-if="animeData.description"
+      v-html="animeData.description"
+      class="container"
+    ></div>
+    <div v-else class="container">
+      <p>We're sorry, the description isn't available yet.</p>
+    </div>
+  </div>
+  <div class="container">
+    <hr />
   </div>
   <div class="container animes-wrapper">
+    <div class="mt-5 mb-5" style="text-align: left">
+      <h2>{{ getSubstitutesNumber() }} Animes that you could like</h2>
+    </div>
     <div class="row mb-3">
       <transition-group name="fade" appear>
         <div
@@ -64,6 +75,9 @@ export default {
     async getLinkedAnimes(id) {
       const response = await getData(`api-v1/animes/${id}/`);
       this.linkedAnimesData.push(response.data);
+    },
+    getSubstitutesNumber() {
+      return this.linkedAnimesData.length;
     },
   },
   computed: {
