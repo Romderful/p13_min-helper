@@ -15,11 +15,11 @@ class AnimeSerializer(serializers.ModelSerializer):
         my_categories = anime.categories.all()
         animes = Anime.objects.filter(categories__in=my_categories)
 
-        for anime in animes[:10]:
+        for anime in animes[:5]:
             selected_anime = [cat for cat in my_categories]
             linked_anime = [cat for cat in anime.categories.all()]
             similar_categories = len(set(selected_anime).intersection(linked_anime))
-            substitutes[anime.english_name] = similar_categories
+            substitutes[anime.id] = similar_categories
 
         substitutes = dict(sorted(substitutes.items(), key=lambda item: item[1])[::-1])
         sorted_substitutes = [anime for anime in substitutes]
