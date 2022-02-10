@@ -17,6 +17,17 @@
       <p>We're sorry, the description isn't available yet.</p>
     </div>
   </div>
+  <form @submit.prevent="postComment">
+    <div class="container mb-5">
+      <div class="mb-3">
+        <label class="form-label"><b>Add a comment</b></label>
+        <textarea v-model="comment" class="form-control" rows="4"></textarea>
+        <button class="w-30 btn btn-lg btn-primary mt-3" type="submit">
+          post
+        </button>
+      </div>
+    </div>
+  </form>
   <div class="container">
     <hr />
   </div>
@@ -49,6 +60,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapGetters } from "vuex";
 import { getData } from "../api";
 
@@ -74,6 +86,7 @@ export default {
     return {
       animeData: "",
       linkedAnimesData: [],
+      comment: "",
     };
   },
   methods: {
@@ -84,9 +97,25 @@ export default {
     getSubstitutesNumber() {
       return this.linkedAnimesData.length;
     },
+    postComment() {
+      axios.post(
+        "api-v1/animes-comments/",
+        {
+          author: this.getUser.pk,
+          anime: this.animeData.id,
+          content: this.comment,
+        },
+        {
+          headers: {
+            Authorization: "Bearer " + localStorage.getItem("access_token"),
+          },
+        }
+      );
+    },
   },
   computed: {
     ...mapGetters(["getAnimesData"]),
+    ...mapGetters(["getUser"]),
   },
   async created() {
     const response = await getData(`api-v1/animes/${this.id}/`);
@@ -95,6 +124,7 @@ export default {
     for (const id of linkedAnimesId) {
       this.getLinkedAnimes(id);
     }
+    console.log(this.getUser);
   },
 };
 </script>

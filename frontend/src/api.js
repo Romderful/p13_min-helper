@@ -1,5 +1,6 @@
 import axios from "axios"
 
+
 async function getData(url) {
     const data = await axios.get(url, {
         headers: {
@@ -8,5 +9,6 @@ async function getData(url) {
     });
     return data;
 }
+
 
 export { getData };

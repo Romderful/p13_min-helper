@@ -46,9 +46,6 @@ class CategorySerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     """Comments serializer."""
 
-    anime = serializers.CharField(source="anime.english_name", read_only=True)
-    author = serializers.CharField(source="author.email", read_only=True)
-
     class Meta:
         model = Comment
         fields = "__all__"
