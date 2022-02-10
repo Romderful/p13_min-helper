@@ -1,7 +1,7 @@
 """Animes serializers."""
 
 from rest_framework import serializers
-from .models import Anime, Category
+from .models import Anime, Category, Comment
 
 
 class AnimeSerializer(serializers.ModelSerializer):
@@ -40,4 +40,15 @@ class CategorySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Category
+        fields = "__all__"
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    """Comments serializer."""
+
+    anime = serializers.CharField(source="anime.english_name", read_only=True)
+    author = serializers.CharField(source="author.email", read_only=True)
+
+    class Meta:
+        model = Comment
         fields = "__all__"

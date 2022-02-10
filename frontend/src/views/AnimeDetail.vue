@@ -1,7 +1,12 @@
 <template>
   <div class="container mb-5" style="text-align: left; padding: 0">
+    <div class="card border-0 container mb-5">
+      <img class="anime-cover-image" :src="animeData.cover_image" />
+    </div>
     <div class="container mb-5">
-      <h2>Description</h2>
+      <h2>
+        Description of : <u>{{ animeData.english_name }}</u>
+      </h2>
     </div>
     <div
       v-if="animeData.description"

@@ -38,6 +38,18 @@ class Anime(models.Model):
         return self.english_name
 
 
+class Comment(models.Model):
+    """Comment's table."""
+
+    author = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
+    anime = models.ForeignKey(Anime, on_delete=models.PROTECT)
+    content = models.TextField()
+
+    def __str__(self) -> str:
+        """Display the name of the author with the related anime in the admin panel."""
+        return f"{self.author.email} - {self.anime.english_name}"
+
+
 class Favourite(models.Model):
     """Favourite's table."""
 
@@ -45,5 +57,5 @@ class Favourite(models.Model):
     anime = models.ForeignKey(Anime, on_delete=models.PROTECT)
 
     def __str__(self) -> str:
-        """Display the email of the user in the admin panel."""
-        return self.user.email
+        """Display the email of the user with the favourite anime in the admin panel."""
+        return f"{self.user.email} - {self.anime.english_name}"
