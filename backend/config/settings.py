@@ -165,6 +165,7 @@ AUTHENTICATION_BACKENDS = (
 CORS_ORIGIN_ALLOW_ALL = True
 
 REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "dj_rest_auth.jwt_auth.JWTCookieAuthentication",
     ),

@@ -1,5 +1,6 @@
 """Animes views."""
 
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets
 from .models import Anime, Category, Comment
@@ -34,5 +35,7 @@ class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
 class CommentViewSet(viewsets.ModelViewSet):
     """Comments model viewset."""
 
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["anime"]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

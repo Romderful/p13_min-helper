@@ -17,6 +17,11 @@
       <p>We're sorry, the description isn't available yet.</p>
     </div>
   </div>
+  <div class="container">
+    <p v-for="comment in commentData.results" :key="comment.id">
+      {{ `${comment.author} - ${comment.content}` }}
+    </p>
+  </div>
   <form @submit.prevent="postComment">
     <div class="container mb-5">
       <div class="mb-3">
@@ -73,6 +78,7 @@ export default {
         return;
       }
       this.linkedAnimesData = [];
+      this.getComment();
       const response = await getData(`api-v1/animes/${this.$route.params.id}/`);
       this.animeData = response.data;
       let linkedAnimesId = Object.values(this.animeData.linked_animes);
@@ -87,6 +93,7 @@ export default {
       animeData: "",
       linkedAnimesData: [],
       comment: "",
+      commentData: "",
     };
   },
   methods: {
@@ -97,11 +104,11 @@ export default {
     getSubstitutesNumber() {
       return this.linkedAnimesData.length;
     },
-    postComment() {
-      axios.post(
+    async postComment() {
+      await axios.post(
         "api-v1/animes-comments/",
         {
-          author: this.getUser.pk,
+          author: this.getUser.username,
           anime: this.animeData.id,
           content: this.comment,
         },
@@ -111,6 +118,14 @@ export default {
           },
         }
       );
+      this.comment = "";
+      await this.getComment();
+    },
+    async getComment() {
+      const response = await getData(
+        `api-v1/animes-comments/?anime=${this.$route.params.id}`
+      );
+      this.commentData = response.data;
     },
   },
   computed: {
@@ -124,7 +139,7 @@ export default {
     for (const id of linkedAnimesId) {
       this.getLinkedAnimes(id);
     }
-    console.log(this.getUser);
+    this.getComment();
   },
 };
 </script>

@@ -2,6 +2,7 @@
 
 from rest_framework import serializers
 from .models import Anime, Category, Comment
+from django.contrib.auth import get_user_model
 
 
 class AnimeSerializer(serializers.ModelSerializer):
@@ -45,6 +46,10 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class CommentSerializer(serializers.ModelSerializer):
     """Comments serializer."""
+
+    author = serializers.SlugRelatedField(
+        queryset=get_user_model().objects.all(), slug_field="username"
+    )
 
     class Meta:
         model = Comment
