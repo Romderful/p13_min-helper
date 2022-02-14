@@ -17,10 +17,23 @@
       <p>We're sorry, the description isn't available yet.</p>
     </div>
   </div>
-  <div class="container">
-    <p v-for="comment in commentData.results" :key="comment.id">
-      {{ `${comment.author} - ${comment.content}` }}
-    </p>
+  <div class="container" v-if="commentData.results">
+    <div
+      v-for="comment in commentData.results"
+      :key="comment.id"
+      class="card mt-5 mb-5"
+    >
+      <div class="card-header">
+        <p style="text-align: left; margin: 0">
+          <b>{{ comment.author }} - {{ comment.created_date }}</b>
+        </p>
+      </div>
+      <div class="card-body">
+        <p class="card-text" style="text-align: left">
+          {{ comment.content }}
+        </p>
+      </div>
+    </div>
   </div>
   <form @submit.prevent="postComment">
     <div class="container mb-5">

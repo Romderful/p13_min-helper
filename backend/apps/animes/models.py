@@ -43,6 +43,7 @@ class Comment(models.Model):
 
     author = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     anime = models.ForeignKey(Anime, on_delete=models.PROTECT)
+    created_date = models.DateTimeField(auto_now_add=True)
     content = models.TextField()
 
     def __str__(self) -> str:

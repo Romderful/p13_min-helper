@@ -47,6 +47,9 @@ class CategorySerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
     """Comments serializer."""
 
+    created_date = serializers.DateTimeField(
+        format="%Y-%m-%d - %H:%M:%S", required=False, read_only=True
+    )
     author = serializers.SlugRelatedField(
         queryset=get_user_model().objects.all(), slug_field="username"
     )
