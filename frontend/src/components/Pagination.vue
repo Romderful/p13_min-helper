@@ -22,11 +22,13 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Pagination",
+
   data() {
     return {
       page: 1,
     };
   },
+
   methods: {
     async getNextPage() {
       this.page = this.$route.query.page;
@@ -34,6 +36,7 @@ export default {
       const query = { ...this.$route.query, page: this.page };
       this.$router.push({ query });
     },
+
     async getPreviousPage() {
       this.page = this.$route.query.page;
       this.page--;
@@ -41,6 +44,7 @@ export default {
       this.$router.push({ query });
     },
   },
+
   computed: {
     ...mapGetters(["getAnimesData"]),
     ...mapGetters(["getUserInput"]),

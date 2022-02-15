@@ -50,6 +50,8 @@
 import axios from "axios";
 
 export default {
+  name: "Login",
+
   data() {
     return {
       email: "",
@@ -57,6 +59,7 @@ export default {
       errors: "",
     };
   },
+
   methods: {
     async handleSubmit() {
       try {
@@ -66,6 +69,7 @@ export default {
         });
         if (response.status == 200) {
           localStorage.setItem("access_token", response.data.access_token);
+          localStorage.setItem("refresh_token", response.data.refresh_token);
           this.$store.dispatch("updateUser", response.data.user);
           this.$router.push("/");
         }

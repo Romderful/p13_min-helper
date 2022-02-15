@@ -16,11 +16,13 @@ import { getData } from "../api";
 
 export default {
   name: "SearchBar",
+
   data() {
     return {
       userInput: "",
     };
   },
+
   methods: {
     async getUserSearch() {
       this.$store.dispatch("updateUserInput", this.userInput);
@@ -37,6 +39,7 @@ export default {
       this.userInput = "";
     },
   },
+
   computed: {
     ...mapGetters(["getUserInput"]),
   },

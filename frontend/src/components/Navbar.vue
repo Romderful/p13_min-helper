@@ -28,11 +28,18 @@
           </li>
           <li class="nav-item col-12 col-lg-auto">
             <router-link
+              v-if="getUser"
               :to="{
                 name: 'AnimeList',
                 query: { page: 1 },
               }"
               @click="clearUserInputAndReload"
+              class="nav-link link-dark px-2"
+              >Browse</router-link
+            >
+            <router-link
+              v-else
+              :to="{ name: 'Login' }"
               class="nav-link link-dark px-2"
               >Browse</router-link
             >
@@ -94,6 +101,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import SearchBar from "./SearchBar.vue";
 import { getData } from "../api";
 import { mapGetters } from "vuex";
@@ -103,28 +111,42 @@ export default {
   components: {
     SearchBar,
   },
+
   data() {
     return {
       counter: 0,
     };
   },
+
   methods: {
     handleLogout() {
       localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
       this.$store.dispatch("updateUser", null);
       this.$router.push("/");
     },
+
     async clearUserInputAndReload() {
       this.counter++;
       this.$store.dispatch("updateUserInput", this.counter);
-      if (this.$route.name != "AnimeList") {
-        const response = await getData("api-v1/animes/");
-        this.$store.dispatch("updateAnimesData", response.data);
-      }
+      const response = await getData("api-v1/animes/");
+      this.$store.dispatch("updateAnimesData", response.data);
     },
   },
+
   computed: {
     ...mapGetters(["getUser"]),
+  },
+
+  async created() {
+    try {
+      const response = await axios.get("api-v1/auth/user/");
+      if (response.status == 200) {
+        this.$store.dispatch("updateUser", response.data);
+      }
+    } catch (e) {
+      return;
+    }
   },
 };
 </script>

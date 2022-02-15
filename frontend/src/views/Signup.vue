@@ -79,6 +79,7 @@ import axios from "axios";
 
 export default {
   name: "Signup",
+
   data() {
     return {
       username: "",
@@ -89,6 +90,7 @@ export default {
       errors: "",
     };
   },
+
   methods: {
     async handleSubmit() {
       try {

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mb-5" v-if="getUser">
+  <div class="container mb-5">
     <div class="container row" style="max-width: 600px; margin: auto">
       <div class="container col-lg-6 col-12 mb-3">
         <label class="form-label"><b>Genres</b></label>
@@ -30,7 +30,7 @@
       </div>
     </div>
   </div>
-  <div v-if="getUser" class="container animes-wrapper">
+  <div class="container animes-wrapper">
     <div class="row mb-3">
       <transition-group name="fade" appear>
         <div
@@ -54,13 +54,9 @@
     </div>
     <Pagination />
   </div>
-  <div v-else class="container">
-    <Error :message="errorMessage" />
-  </div>
 </template>
 
 <script>
-import Error from "../components/Error.vue";
 import Pagination from "../components/Pagination.vue";
 import { mapGetters } from "vuex";
 import { getData } from "../api";
@@ -68,35 +64,18 @@ import { getData } from "../api";
 export default {
   name: "AnimeList",
   components: {
-    Error,
     Pagination,
   },
+
   watch: {
     async $route() {
       if (this.$route.name !== "AnimeList") {
         return;
       }
-      let params = "?";
-      if (this.$route.query.genre) {
-        params += `categories=${this.$route.query.genre}`;
-        this.selectedGenre = this.$route.query.genre;
-      } else {
-        this.selectedGenre = "";
-      }
-      if (this.$route.query.score) {
-        params += `&ordering=${this.$route.query.score}`;
-        this.selectedScore = this.$route.query.score;
-      }
-      if (this.$route.query.name) {
-        params += `&search=${this.$route.query.name}`;
-        this.selectedGenre = "";
-      }
-      params += `&page=${this.$route.query.page}`;
-      const response = await getData(`api-v1/animes/${params}`);
-      this.$store.dispatch("updateAnimesData", response.data);
-      window.scrollTo({ top: 0, behavior: "smooth" });
+      this.setAnimesData();
     },
   },
+
   data() {
     return {
       errorMessage: "No data could be found",
@@ -106,11 +85,13 @@ export default {
       page: 1,
     };
   },
+
   methods: {
     async getCategories() {
       const response = await getData("api-v1/animes-categories/");
       this.categoriesData = response.data;
     },
+
     goToGenre(genre) {
       this.$route.query.page = 1;
       this.selectedScore = "any";
@@ -128,6 +109,7 @@ export default {
         });
       }
     },
+
     goToScore(score) {
       this.$route.query.page = 1;
       if (this.selectedGenre) {
@@ -154,14 +136,39 @@ export default {
         }
       }
     },
+
+    async setAnimesData() {
+      let params = "?";
+      if (this.$route.query.genre) {
+        params += `categories=${this.$route.query.genre}`;
+        this.selectedGenre = this.$route.query.genre;
+      } else {
+        this.selectedGenre = "";
+      }
+      if (this.$route.query.score) {
+        params += `&ordering=${this.$route.query.score}`;
+        this.selectedScore = this.$route.query.score;
+      }
+      if (this.$route.query.name) {
+        params += `&search=${this.$route.query.name}`;
+        this.selectedGenre = "";
+      }
+      params += `&page=${this.$route.query.page}`;
+      const response = await getData(`api-v1/animes/${params}`);
+      this.$store.dispatch("updateAnimesData", response.data);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
   },
+
   computed: {
     ...mapGetters(["getUser"]),
     ...mapGetters(["getAnimesData"]),
     ...mapGetters(["getUserInput"]),
   },
+
   async created() {
     this.getCategories();
+    this.setAnimesData();
   },
 };
 </script>

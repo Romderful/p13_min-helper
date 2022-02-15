@@ -85,6 +85,7 @@ import { getData } from "../api";
 export default {
   name: "AnimeDetail",
   props: ["id"],
+
   watch: {
     async $route() {
       if (this.$route.name !== "AnimeDetail") {
@@ -101,6 +102,7 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
   },
+
   data() {
     return {
       animeData: "",
@@ -109,14 +111,17 @@ export default {
       commentData: "",
     };
   },
+
   methods: {
     async getLinkedAnimes(id) {
       const response = await getData(`api-v1/animes/${id}/`);
       this.linkedAnimesData.push(response.data);
     },
+
     getSubstitutesNumber() {
       return this.linkedAnimesData.length;
     },
+
     async postComment() {
       await axios.post(
         "api-v1/animes-comments/",
@@ -134,6 +139,7 @@ export default {
       this.comment = "";
       await this.getComment();
     },
+
     async getComment() {
       const response = await getData(
         `api-v1/animes-comments/?anime=${this.$route.params.id}`
@@ -141,10 +147,12 @@ export default {
       this.commentData = response.data;
     },
   },
+
   computed: {
     ...mapGetters(["getAnimesData"]),
     ...mapGetters(["getUser"]),
   },
+
   async created() {
     const response = await getData(`api-v1/animes/${this.id}/`);
     this.animeData = response.data;
