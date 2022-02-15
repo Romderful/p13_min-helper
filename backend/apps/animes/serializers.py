@@ -22,10 +22,14 @@ class AnimeSerializer(serializers.ModelSerializer):
             similar_categories = len(set(selected_anime).intersection(linked_anime))
             substitutes[anime.id] = similar_categories
 
-        substitutes = dict(sorted(substitutes.items(), key=lambda item: item[1])[::-1])
-        sorted_substitutes = [anime for anime in substitutes]
+        substitutes = [
+            category
+            for category, _ in sorted(
+                substitutes.items(), key=lambda item: item[1], reverse=True
+            )
+        ]
 
-        return sorted_substitutes
+        return substitutes
 
     categories = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="name"
