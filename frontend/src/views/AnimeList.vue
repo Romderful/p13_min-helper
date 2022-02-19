@@ -38,17 +38,36 @@
           v-for="anime in getAnimesData.results"
           :key="anime.id"
         >
-          <router-link
-            class="router-link"
-            :to="{ name: 'AnimeDetail', params: { id: anime.id } }"
-          >
-            <div class="anime-card card border-0">
-              <img class="anime-cover-image" :src="anime.cover_image" />
+          <div class="anime-card card border-0">
+            <div class="image-wrapper card">
+              <router-link
+                class="router-link"
+                :to="{ name: 'AnimeDetail', params: { id: anime.id } }"
+                ><img class="anime-cover-image" :src="anime.cover_image"
+              /></router-link>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                fill="currentColor"
+                class="bi bi-heart-fill"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"
+                />
+              </svg>
+            </div>
+            <router-link
+              class="router-link"
+              :to="{ name: 'AnimeDetail', params: { id: anime.id } }"
+            >
               <p class="anime-name">
                 <strong>{{ anime.english_name }}</strong>
               </p>
-            </div></router-link
-          >
+            </router-link>
+          </div>
         </div>
       </transition-group>
     </div>
@@ -174,15 +193,24 @@ export default {
 </script>
 
 <style>
+.image-wrapper {
+  position: relative;
+}
+.bi-heart-fill {
+  position: absolute;
+  right: 0;
+  margin-top: -0.6rem;
+  margin-right: -0.6rem;
+}
+.bi-heart-fill:hover {
+  transition: all 0.4s ease;
+  color: red;
+}
 .animes-wrapper {
   margin-bottom: 7rem;
 }
 .anime-card {
   transition: 0.4s ease-out;
-}
-.anime-card:hover {
-  transition: 0.4s ease-out;
-  opacity: 0.8;
 }
 .anime-name {
   text-align: left;
@@ -191,6 +219,11 @@ export default {
   border-radius: 5px;
   max-width: 196px;
   max-height: 270px;
+  width: -webkit-fill-available;
+}
+.anime-cover-image:hover {
+  transition: 0.4s ease-out;
+  opacity: 0.8;
 }
 .fade-enter-active,
 .fade-leave-active {
