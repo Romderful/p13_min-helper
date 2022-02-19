@@ -1,5 +1,5 @@
 <template>
-  <div class="container fixed-top">
+  <div class="container fixed-top" style="max-width: 150%; padding: 0">
     <nav
       class="main-navbar navbar-expand-lg navbar-light bg-light border-bottom"
     >
