@@ -11,8 +11,8 @@
 </template>
 
 <script>
+import axios from "axios";
 import { mapGetters } from "vuex";
-import { getData } from "../api";
 
 export default {
   name: "SearchBar",
@@ -31,7 +31,7 @@ export default {
         query: { name: this.getUserInput, score: "any", page: 1 },
       });
       if (this.$route.name != "AnimeList") {
-        const response = await getData(
+        const response = await axios.get(
           `api-v1/animes/?search=${this.getUserInput}`
         );
         this.$store.dispatch("updateAnimesData", response.data);

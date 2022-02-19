@@ -103,7 +103,6 @@
 <script>
 import axios from "axios";
 import SearchBar from "./SearchBar.vue";
-import { getData } from "../api";
 import { mapGetters } from "vuex";
 
 export default {
@@ -129,7 +128,7 @@ export default {
     async clearUserInputAndReload() {
       this.counter++;
       this.$store.dispatch("updateUserInput", this.counter);
-      const response = await getData("api-v1/animes/");
+      const response = await axios.get("api-v1/animes/");
       this.$store.dispatch("updateAnimesData", response.data);
     },
   },

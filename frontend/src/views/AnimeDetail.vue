@@ -80,7 +80,6 @@
 <script>
 import axios from "axios";
 import { mapGetters } from "vuex";
-import { getData } from "../api";
 
 export default {
   name: "AnimeDetail",
@@ -93,7 +92,9 @@ export default {
       }
       this.linkedAnimesData = [];
       this.getComment();
-      const response = await getData(`api-v1/animes/${this.$route.params.id}/`);
+      const response = await axios.get(
+        `api-v1/animes/${this.$route.params.id}/`
+      );
       this.animeData = response.data;
       let linkedAnimesId = Object.values(this.animeData.linked_animes);
       for (const id of linkedAnimesId) {
@@ -114,7 +115,7 @@ export default {
 
   methods: {
     async getLinkedAnimes(id) {
-      const response = await getData(`api-v1/animes/${id}/`);
+      const response = await axios.get(`api-v1/animes/${id}/`);
       this.linkedAnimesData.push(response.data);
     },
 
@@ -141,7 +142,7 @@ export default {
     },
 
     async getComment() {
-      const response = await getData(
+      const response = await axios.get(
         `api-v1/animes-comments/?anime=${this.$route.params.id}`
       );
       this.commentData = response.data;
@@ -154,7 +155,7 @@ export default {
   },
 
   async created() {
-    const response = await getData(`api-v1/animes/${this.id}/`);
+    const response = await axios.get(`api-v1/animes/${this.id}/`);
     this.animeData = response.data;
     let linkedAnimesId = Object.values(this.animeData.linked_animes);
     for (const id of linkedAnimesId) {

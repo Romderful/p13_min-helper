@@ -57,9 +57,9 @@
 </template>
 
 <script>
+import axios from "axios";
 import Pagination from "../components/Pagination.vue";
 import { mapGetters } from "vuex";
-import { getData } from "../api";
 
 export default {
   name: "AnimeList",
@@ -88,7 +88,7 @@ export default {
 
   methods: {
     async getCategories() {
-      const response = await getData("api-v1/animes-categories/");
+      const response = await axios.get("api-v1/animes-categories/");
       this.categoriesData = response.data;
     },
 
@@ -154,7 +154,7 @@ export default {
         this.selectedGenre = "";
       }
       params += `&page=${this.$route.query.page}`;
-      const response = await getData(`api-v1/animes/${params}`);
+      const response = await axios.get(`api-v1/animes/${params}`);
       this.$store.dispatch("updateAnimesData", response.data);
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
