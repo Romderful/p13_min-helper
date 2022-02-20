@@ -4,7 +4,12 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets
 from .models import Anime, Category, Comment
-from .serializers import AnimeSerializer, CategorySerializer, CommentSerializer
+from .serializers import (
+    AnimeSerializer,
+    CategorySerializer,
+    CommentSerializer,
+    FavouriteSerializer,
+)
 from .pagination import LargeResultsSetPagination
 
 
@@ -39,3 +44,10 @@ class CommentViewSet(viewsets.ModelViewSet):
     filterset_fields = ["anime"]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+class FavouriteViewSet(viewsets.ReadOnlyModelViewSet):
+    """Categories model viewset."""
+
+    queryset = Category.objects.all()
+    serializer_class = FavouriteSerializer

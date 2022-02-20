@@ -1,7 +1,7 @@
 """Animes serializers."""
 
 from rest_framework import serializers
-from .models import Anime, Category, Comment
+from .models import Anime, Category, Comment, Favourite
 from django.contrib.auth import get_user_model
 
 
@@ -60,4 +60,12 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
+        fields = "__all__"
+
+
+class FavouriteSerializer(serializers.ModelSerializer):
+    """Favourites serializer."""
+
+    class Meta:
+        model = Favourite
         fields = "__all__"
