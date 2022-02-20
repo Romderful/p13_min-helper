@@ -46,6 +46,7 @@
                 ><img class="anime-cover-image" :src="anime.cover_image"
               /></router-link>
               <svg
+                @click="addToFavourites(anime.id)"
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
@@ -176,6 +177,13 @@ export default {
       const response = await axios.get(`api-v1/animes/${params}`);
       this.$store.dispatch("updateAnimesData", response.data);
       window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+
+    addToFavourites(anime_id) {
+      axios.post("api-v1/animes-favourites/", {
+        user: this.getUser.username,
+        anime: anime_id,
+      });
     },
   },
 

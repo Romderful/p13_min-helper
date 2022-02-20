@@ -124,19 +124,11 @@ export default {
     },
 
     async postComment() {
-      await axios.post(
-        "api-v1/animes-comments/",
-        {
-          author: this.getUser.username,
-          anime: this.animeData.id,
-          content: this.comment,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + localStorage.getItem("access_token"),
-          },
-        }
-      );
+      await axios.post("api-v1/animes-comments/", {
+        author: this.getUser.username,
+        anime: this.animeData.id,
+        content: this.comment,
+      });
       this.comment = "";
       await this.getComment();
     },
