@@ -66,6 +66,10 @@ class CommentSerializer(serializers.ModelSerializer):
 class FavouriteSerializer(serializers.ModelSerializer):
     """Favourites serializer."""
 
+    user = serializers.SlugRelatedField(
+        queryset=get_user_model().objects.all(), slug_field="username"
+    )
+
     class Meta:
         model = Favourite
         fields = "__all__"

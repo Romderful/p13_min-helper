@@ -3,7 +3,7 @@
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework import viewsets
-from .models import Anime, Category, Comment
+from .models import Anime, Category, Comment, Favourite
 from .serializers import (
     AnimeSerializer,
     CategorySerializer,
@@ -46,8 +46,8 @@ class CommentViewSet(viewsets.ModelViewSet):
     serializer_class = CommentSerializer
 
 
-class FavouriteViewSet(viewsets.ReadOnlyModelViewSet):
+class FavouriteViewSet(viewsets.ModelViewSet):
     """Categories model viewset."""
 
-    queryset = Category.objects.all()
+    queryset = Favourite.objects.all()
     serializer_class = FavouriteSerializer
