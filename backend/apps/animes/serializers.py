@@ -9,6 +9,7 @@ class AnimeSerializer(serializers.ModelSerializer):
     """Animes serializer."""
 
     linked_animes = serializers.SerializerMethodField()
+    is_favourite = serializers.SerializerMethodField()
 
     def get_linked_animes(self, anime: Anime):
         """Return the animes that matches with the same categories."""
@@ -30,6 +31,12 @@ class AnimeSerializer(serializers.ModelSerializer):
         ]
 
         return substitutes
+
+    def get_is_favourite(self, anime: Anime) -> bool:
+        """Return true is the current anime is on favourite."""
+
+        user = self.context["request"].user
+        return Favourite.objects.filter(user=user, anime=anime).exists()
 
     categories = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="name"
@@ -69,6 +76,30 @@ class FavouriteSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
         queryset=get_user_model().objects.all(), slug_field="username"
     )
+
+    def to_representation(self, instance):
+        result = {}
+        instance = instance.first()
+        if not instance:
+            return result
+        result["user"] = instance.user.username
+        result["anime"] = AnimeSerializer(
+            instance=instance.anime, context={"request": self.context["request"]}
+        ).data
+        return result
+
+    def create(self, validated_data):
+        favourite = Favourite.objects.filter(
+            user=validated_data["user"], anime=validated_data["anime"]
+        )
+        if favourite.exists():
+            favourite.delete()
+
+        else:
+            Favourite.objects.create(
+                user=validated_data["user"], anime=validated_data["anime"]
+            )
+        return favourite
 
     class Meta:
         model = Favourite

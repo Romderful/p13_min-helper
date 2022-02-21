@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     user: null,
-    animesData: "",
+    animesData: [],
     userInput: "",
   },
   getters: {
@@ -26,6 +26,10 @@ export default createStore({
     },
     updateAnimesData(state, animesData) {
       state.animesData = animesData;
+    },
+    updateAnimeData(state, animeData) {
+      const index = state.animesData.results.findIndex(anime => anime.id === animeData.id)
+      state.animesData.results[index] = animeData;
     }
   },
   actions: {
@@ -37,6 +41,9 @@ export default createStore({
     },
     updateAnimesData(context, animesData) {
       context.commit("updateAnimesData", animesData);
-    }
+    },
+    updateAnimeData(context, animeData) {
+      context.commit("updateAnimeData", animeData);
+    },
   },
 })

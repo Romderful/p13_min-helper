@@ -46,11 +46,11 @@
                 ><img class="anime-cover-image" :src="anime.cover_image"
               /></router-link>
               <svg
-                @click="addToFavourites(anime.id)"
+                @click="addToFavourites(anime)"
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
-                fill="currentColor"
+                :fill="anime.is_favourite ? 'red' : 'currentColor'"
                 class="bi bi-heart-fill"
                 viewBox="0 0 16 16"
               >
@@ -179,11 +179,17 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
 
-    addToFavourites(anime_id) {
-      axios.post("api-v1/animes-favourites/", {
+    async addToFavourites(anime) {
+      const response = await axios.post("api-v1/animes-favourites/", {
         user: this.getUser.username,
-        anime: anime_id,
+        anime: anime.id,
       });
+      if (!response.data.anime) {
+        anime.is_favourite = false;
+        this.$store.dispatch("updateAnimeData", anime);
+        return;
+      }
+      this.$store.dispatch("updateAnimeData", response.data.anime);
     },
   },
 
