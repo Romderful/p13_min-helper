@@ -99,11 +99,10 @@ export default {
   data() {
     return {
       errorMessage: "No data could be found",
-      categoriesData: "",
+      categoriesData: [],
       selectedGenre: "",
       selectedScore: "any",
       page: 1,
-      favouriteData: [],
     };
   },
 
@@ -181,22 +180,15 @@ export default {
     },
 
     async addToFavourites(anime_id) {
-      this.favouriteData = [];
-      await axios.post("api-v1/animes-favourites/", {
-        user: this.getUser.username,
-        anime: anime_id,
-      });
       const response = await axios.get(`api-v1/animes/${anime_id}/`);
-      this.favouriteData = response;
-      if (this.favouriteData.data.is_favourite === true) {
-        this.favouriteData.data.is_favourite = false;
-        console.log(this.favouriteData.data.is_favourite);
-        this.$store.dispatch("updateAnimeData", this.favouriteData);
-      } else {
-        this.favouriteData.data.is_favourite = true;
-        console.log(this.favouriteData.data.is_favourite);
-        this.$store.dispatch("updateAnimeData", this.favouriteData);
+      if (response.data.is_favourite === false) {
+        await axios.post("api-v1/animes-favourites/", {
+          user: this.getUser.username,
+          anime: anime_id,
+        });
+        response.data.is_favourite = true;
       }
+      this.$store.dispatch("updateAnimeData", response.data);
     },
   },
 
@@ -225,6 +217,7 @@ export default {
 }
 .bi-heart-fill:hover {
   transition: all 0.4s ease;
+  transform: scale(1.5);
   color: red;
 }
 .animes-wrapper {
