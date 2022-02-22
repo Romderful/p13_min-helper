@@ -33,7 +33,7 @@ class AnimeSerializer(serializers.ModelSerializer):
         return substitutes
 
     def get_is_favourite(self, anime: Anime) -> bool:
-        """Return true is the current anime is on favourite."""
+        """Return a boolean depending if the favourite exists."""
 
         user = self.context["request"].user
         return Favourite.objects.filter(user=user, anime=anime).exists()
