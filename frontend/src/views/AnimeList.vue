@@ -46,7 +46,7 @@
                 ><img class="anime-cover-image" :src="anime.cover_image"
               /></router-link>
               <svg
-                @click="addToFavourites(anime)"
+                @click="addToFavourites(anime.id)"
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
@@ -99,7 +99,7 @@ export default {
   data() {
     return {
       errorMessage: "No data could be found",
-      categoriesData: "",
+      categoriesData: [],
       selectedGenre: "",
       selectedScore: "any",
       page: 1,
@@ -179,17 +179,16 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
 
-    async addToFavourites(anime) {
-      const response = await axios.post("api-v1/animes-favourites/", {
-        user: this.getUser.username,
-        anime: anime.id,
-      });
-      if (!response.data.anime) {
-        anime.is_favourite = false;
-        this.$store.dispatch("updateAnimeData", anime);
-        return;
+    async addToFavourites(anime_id) {
+      const response = await axios.get(`api-v1/animes/${anime_id}/`);
+      if (response.data.is_favourite === false) {
+        await axios.post("api-v1/animes-favourites/", {
+          user: this.getUser.username,
+          anime: anime_id,
+        });
+        response.data.is_favourite = true;
       }
-      this.$store.dispatch("updateAnimeData", response.data.anime);
+      this.$store.dispatch("updateAnimeData", response.data);
     },
   },
 
@@ -218,6 +217,7 @@ export default {
 }
 .bi-heart-fill:hover {
   transition: all 0.4s ease;
+  transform: scale(1.5);
   color: red;
 }
 .animes-wrapper {

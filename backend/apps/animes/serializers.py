@@ -77,41 +77,6 @@ class FavouriteSerializer(serializers.ModelSerializer):
         queryset=get_user_model().objects.all(), slug_field="username"
     )
 
-    anime = serializers.SerializerMethodField()
-
-    def get_anime(self, instance):
-
-        queryset = instance.anime
-        serializer = AnimeSerializer(
-            queryset, context={"request": self.context["request"]}
-        )
-
-        return serializer.data
-
-    # def to_representation(self, instance):
-    #     result = {}
-    #     instance = instance.first()
-    #     if not instance:
-    #         return result
-    #     result["user"] = instance.user.username
-    #     result["anime"] = AnimeSerializer(
-    #         instance=instance.anime, context={"request": self.context["request"]}
-    #     ).data
-    #     return result
-
-    def create(self, validated_data):
-        favourite = Favourite.objects.filter(
-            user=validated_data["user"], anime=validated_data["anime"]
-        )
-        if favourite.exists():
-            favourite.delete()
-
-        else:
-            Favourite.objects.create(
-                user=validated_data["user"], anime=validated_data["anime"]
-            )
-        return favourite
-
     class Meta:
         model = Favourite
         fields = "__all__"
