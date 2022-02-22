@@ -46,7 +46,7 @@
                 ><img class="anime-cover-image" :src="anime.cover_image"
               /></router-link>
               <svg
-                @click="addToFavourites(anime)"
+                @click="addToFavourites(anime.id)"
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
                 height="18"
@@ -103,6 +103,7 @@ export default {
       selectedGenre: "",
       selectedScore: "any",
       page: 1,
+      favouriteData: [],
     };
   },
 
@@ -179,17 +180,23 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
 
-    async addToFavourites(anime) {
-      const response = await axios.post("api-v1/animes-favourites/", {
+    async addToFavourites(anime_id) {
+      this.favouriteData = [];
+      await axios.post("api-v1/animes-favourites/", {
         user: this.getUser.username,
-        anime: anime.id,
+        anime: anime_id,
       });
-      if (!response.data.anime) {
-        anime.is_favourite = false;
-        this.$store.dispatch("updateAnimeData", anime);
-        return;
+      const response = await axios.get(`api-v1/animes/${anime_id}/`);
+      this.favouriteData = response;
+      if (this.favouriteData.data.is_favourite === true) {
+        this.favouriteData.data.is_favourite = false;
+        console.log(this.favouriteData.data.is_favourite);
+        this.$store.dispatch("updateAnimeData", this.favouriteData);
+      } else {
+        this.favouriteData.data.is_favourite = true;
+        console.log(this.favouriteData.data.is_favourite);
+        this.$store.dispatch("updateAnimeData", this.favouriteData);
       }
-      this.$store.dispatch("updateAnimeData", response.data.anime);
     },
   },
 
