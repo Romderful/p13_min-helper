@@ -182,11 +182,14 @@ export default {
     async addToFavourites(anime_id) {
       const response = await axios.get(`api-v1/animes/${anime_id}/`);
       if (response.data.is_favourite === false) {
-        await axios.post("api-v1/animes-favourites/", {
+        axios.post("api-v1/animes-favourites/", {
           user: this.getUser.username,
           anime: anime_id,
         });
         response.data.is_favourite = true;
+      } else {
+        axios.delete(`api-v1/animes-favourites/${response.data.favourite_id}/`);
+        response.data.is_favourite = false;
       }
       this.$store.dispatch("updateAnimeData", response.data);
     },

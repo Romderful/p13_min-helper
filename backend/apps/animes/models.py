@@ -60,6 +60,3 @@ class Favourite(models.Model):
     def __str__(self) -> str:
         """Display the email of the user with the favourite anime in the admin panel."""
         return f"{self.user.email} - {self.anime.english_name}"
-
-
-# contrainte unicité, unique together

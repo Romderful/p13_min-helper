@@ -10,6 +10,7 @@ class AnimeSerializer(serializers.ModelSerializer):
 
     linked_animes = serializers.SerializerMethodField()
     is_favourite = serializers.SerializerMethodField()
+    favourite_id = serializers.SerializerMethodField()
 
     def get_linked_animes(self, anime: Anime):
         """Return the animes that matches with the same categories."""
@@ -37,6 +38,16 @@ class AnimeSerializer(serializers.ModelSerializer):
 
         user = self.context["request"].user
         return Favourite.objects.filter(user=user, anime=anime).exists()
+
+    def get_favourite_id(self, anime: Anime) -> int:
+        """Return the id of the selected favourite."""
+
+        user = self.context["request"].user
+        return (
+            Favourite.objects.filter(user=user, anime=anime)
+            .values_list("id", flat=True)
+            .first()
+        )
 
     categories = serializers.SlugRelatedField(
         many=True, read_only=True, slug_field="name"
