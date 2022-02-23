@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Signup from '../views/Signup.vue'
 import AnimeList from "../views/AnimeList.vue"
 import AnimeDetail from "../views/AnimeDetail.vue"
+import Favourites from "../views/Favourites.vue"
 
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
     path: '/animes',
     name: 'AnimeList',
     component: AnimeList,
+  },
+  {
+    path: '/favourites',
+    name: 'Favourites',
+    component: Favourites,
   },
   {
     path: '/animes/:id',

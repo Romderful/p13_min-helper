@@ -61,9 +61,11 @@
         </ul>
         <ul v-if="getUser" class="nav auth">
           <li class="nav-item col-12 col-lg-auto">
-            <a href="javascript:void(0)" class="nav-link link-dark px-2">{{
-              getUser.username
-            }}</a>
+            <router-link
+              :to="{ name: 'Favourites' }"
+              class="nav-link link-dark px-2"
+              >{{ getUser.username }}</router-link
+            >
           </li>
           <li class="nav-item col-12 col-lg-auto">
             <a
