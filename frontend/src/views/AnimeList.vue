@@ -158,6 +158,7 @@ export default {
     },
 
     async setAnimesData() {
+      this.$store.dispatch("updateAnimesData", []);
       let params = "?";
       if (this.$route.query.genre) {
         params += `categories=${this.$route.query.genre}`;
