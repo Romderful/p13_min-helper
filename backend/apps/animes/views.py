@@ -51,3 +51,4 @@ class FavouriteViewSet(viewsets.ModelViewSet):
 
     queryset = Favourite.objects.all()
     serializer_class = FavouriteSerializer
+    pagination_class = LargeResultsSetPagination

@@ -2,6 +2,26 @@
   <div class="container mb-5" style="text-align: left; padding: 0">
     <div class="card border-0 container mb-5">
       <img class="anime-cover-image" :src="animeData.cover_image" />
+      <div v-if="!this.animeData.is_favourite">
+        <button
+          @click="addToFavourites(this.animeData.id)"
+          class="btn btn-sm btn-primary mt-3"
+          style="width: 12rem"
+          type="submit"
+        >
+          Add to favourites
+        </button>
+      </div>
+      <div v-else>
+        <button
+          @click="addToFavourites(this.animeData.id)"
+          class="btn btn-sm btn-primary mt-3"
+          style="width: 12rem"
+          type="submit"
+        >
+          Remove from favourites
+        </button>
+      </div>
     </div>
     <div class="container mb-5">
       <h2>
@@ -21,7 +41,7 @@
     <div
       v-for="comment in commentData.results"
       :key="comment.id"
-      class="card mt-5 mb-5"
+      class="card mb-3"
     >
       <div class="card-header">
         <p style="text-align: left; margin: 0">
@@ -36,7 +56,7 @@
     </div>
   </div>
   <form @submit.prevent="postComment">
-    <div class="container mb-5">
+    <div class="container mb-5 mt-5">
       <div class="mb-3">
         <label class="form-label"><b>Add a comment</b></label>
         <textarea v-model="comment" class="form-control" rows="4"></textarea>
@@ -114,6 +134,21 @@ export default {
   },
 
   methods: {
+    async addToFavourites(anime_id) {
+      if (this.animeData.is_favourite === false) {
+        axios.post("api-v1/animes-favourites/", {
+          user: this.getUser.username,
+          anime: anime_id,
+        });
+        this.animeData.is_favourite = true;
+      } else {
+        axios.delete(
+          `api-v1/animes-favourites/${this.animeData.favourite_id}/`
+        );
+        this.animeData.is_favourite = false;
+      }
+    },
+
     async getLinkedAnimes(id) {
       const response = await axios.get(`api-v1/animes/${id}/`);
       this.linkedAnimesData.push(response.data);
@@ -154,6 +189,7 @@ export default {
       this.getLinkedAnimes(id);
     }
     this.getComment();
+    window.scrollTo(0, 0);
   },
 };
 </script>
