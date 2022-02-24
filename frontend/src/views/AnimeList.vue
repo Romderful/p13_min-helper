@@ -48,8 +48,8 @@
               <svg
                 @click="addToFavourites(anime.id)"
                 xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
+                width="22"
+                height="22"
                 :fill="anime.is_favourite ? 'red' : 'currentColor'"
                 class="bi bi-heart-fill"
                 viewBox="0 0 16 16"
@@ -72,7 +72,7 @@
         </div>
       </transition-group>
     </div>
-    <Pagination />
+    <Pagination :data="getAnimesData" />
   </div>
 </template>
 
