@@ -87,6 +87,12 @@ class FavouriteSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
         queryset=get_user_model().objects.all(), slug_field="username"
     )
+    anime_details = serializers.SerializerMethodField()
+
+    def get_anime_details(self, instance):
+        queryset = instance.anime
+        serializer = AnimeSerializer(queryset, context=self.context)
+        return serializer.data
 
     class Meta:
         model = Favourite

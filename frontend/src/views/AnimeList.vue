@@ -88,7 +88,7 @@ export default {
   },
 
   watch: {
-    async $route() {
+    $route() {
       if (this.$route.name !== "AnimeList") {
         return;
       }
@@ -201,7 +201,7 @@ export default {
     ...mapGetters(["getUserInput"]),
   },
 
-  async created() {
+  created() {
     this.getCategories();
     this.setAnimesData();
   },
