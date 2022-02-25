@@ -17,7 +17,7 @@ class AnimeSerializer(serializers.ModelSerializer):
         """Return the animes that matches with the same categories."""
         substitutes = {}
         my_categories = anime.categories.all()
-        animes = Anime.objects.filter(categories__in=my_categories)
+        animes = Anime.objects.filter(categories__in=my_categories).exclude(pk=anime.pk)
 
         for anime in animes[:12]:
             selected_anime = [cat for cat in my_categories]
