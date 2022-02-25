@@ -42,7 +42,11 @@
             <div class="image-wrapper card">
               <router-link
                 class="router-link"
-                :to="{ name: 'AnimeDetail', params: { id: anime.id } }"
+                :to="{
+                  name: 'AnimeDetail',
+                  params: { id: anime.id },
+                  query: { page: 1 },
+                }"
                 ><img class="anime-cover-image" :src="anime.cover_image"
               /></router-link>
               <svg
@@ -62,7 +66,11 @@
             </div>
             <router-link
               class="router-link"
-              :to="{ name: 'AnimeDetail', params: { id: anime.id } }"
+              :to="{
+                name: 'AnimeDetail',
+                params: { id: anime.id },
+                query: { page: 1 },
+              }"
             >
               <p class="anime-name">
                 <strong>{{ anime.english_name }}</strong>

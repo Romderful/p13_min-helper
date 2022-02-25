@@ -10,7 +10,7 @@
     <button v-if="data.links.next" class="btn btn-primary" @click="getNextPage">
       Next
     </button>
-    <div class="container mt-3">
+    <div v-if="!data.count == 0" class="container mt-3">
       <i>page {{ data.current_page_number }} out of {{ data.total_pages }}</i>
     </div>
   </div>

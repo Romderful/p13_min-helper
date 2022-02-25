@@ -54,6 +54,7 @@
         </p>
       </div>
     </div>
+    <Pagination :data="commentData" />
   </div>
   <form @submit.prevent="postComment">
     <div class="container mb-5 mt-5">
@@ -99,11 +100,15 @@
 
 <script>
 import axios from "axios";
+import Pagination from "../components/Pagination.vue";
 import { mapGetters } from "vuex";
 
 export default {
   name: "AnimeDetail",
   props: ["id"],
+  components: {
+    Pagination,
+  },
 
   watch: {
     async $route() {
@@ -129,7 +134,7 @@ export default {
       animeData: "",
       linkedAnimesData: [],
       comment: "",
-      commentData: "",
+      commentData: [],
     };
   },
 
@@ -170,7 +175,7 @@ export default {
 
     async getComment() {
       const response = await axios.get(
-        `api-v1/animes-comments/?anime=${this.$route.params.id}`
+        `api-v1/animes-comments/?anime=${this.$route.params.id}&page=${this.$route.query.page}`
       );
       this.commentData = response.data;
     },

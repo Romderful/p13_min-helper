@@ -10,7 +10,7 @@ from .serializers import (
     CommentSerializer,
     FavouriteSerializer,
 )
-from .pagination import LargeResultsSetPagination
+from .pagination import LargeResultsSetPagination, SmallResultsSetPagination
 
 
 class AnimeViewSet(viewsets.ReadOnlyModelViewSet):
@@ -44,6 +44,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     filterset_fields = ["anime"]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    pagination_class = SmallResultsSetPagination
 
 
 class FavouriteViewSet(viewsets.ModelViewSet):
