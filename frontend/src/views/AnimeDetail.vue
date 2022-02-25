@@ -43,37 +43,54 @@
       <p>We're sorry, the description isn't available yet.</p>
     </div>
   </div>
-  <div class="container" v-if="commentData.results">
-    <div
-      v-for="comment in commentData.results"
-      :key="comment.id"
-      class="card mb-3"
-    >
-      <div class="card-header">
-        <p style="text-align: left; margin: 0">
-          <b>{{ comment.author }} - {{ comment.created_date }}</b>
-        </p>
-      </div>
-      <div class="card-body">
-        <p class="card-text" style="text-align: left">
-          {{ comment.content }}
-        </p>
-      </div>
-    </div>
-    <Pagination :data="commentData" />
+  <div class="container mb-5">
+    <hr />
   </div>
-  <form @submit.prevent="postComment">
-    <div class="container mb-5 mt-5">
-      <div class="mb-3">
-        <label class="form-label"><b>Add a comment</b></label>
-        <textarea v-model="comment" class="form-control" rows="4"></textarea>
-        <button class="w-30 btn btn-lg btn-primary mt-3" type="submit">
-          post
-        </button>
+  <div class="container mb-5" v-if="commentData.results">
+    <div class="card shadow p-3 mb-5 bg-white rounded">
+      <div class="card-header shadow p-3 mb-5 bg-white rounded">
+        <p style="text-align: left"><b>Comments</b></p>
       </div>
+      <div v-if="!commentData.count == 0" class="card-body">
+        <div
+          v-for="comment in commentData.results"
+          :key="comment.id"
+          class="card mb-3 shadow-sm bg-white rounded"
+        >
+          <div class="card-header">
+            <p style="text-align: left; margin: 0">
+              <b>{{ comment.author }} - {{ comment.created_date }}</b>
+            </p>
+          </div>
+          <div class="card-body">
+            <p class="card-text" style="text-align: left">
+              {{ comment.content }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div v-else>
+        <i>No comments yet</i>
+      </div>
+      <form @submit.prevent="postComment">
+        <div class="container mb-5 mt-5">
+          <div>
+            <label class="form-label"><b>Add a comment</b></label>
+            <textarea
+              v-model="comment"
+              class="form-control"
+              rows="4"
+            ></textarea>
+            <button class="w-30 btn btn-primary mt-5" type="submit">
+              post your comment !
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
-  </form>
-  <div class="container">
+  </div>
+  <Pagination :data="commentData" />
+  <div class="container mt-5">
     <hr />
   </div>
   <div class="container animes-wrapper">

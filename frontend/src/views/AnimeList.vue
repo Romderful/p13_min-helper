@@ -4,7 +4,7 @@
       <div class="container col-lg-6 col-12 mb-3">
         <label class="form-label"><b>Genres</b></label>
         <input
-          class="form-control"
+          class="form-control shadow mb-5 bg-white rounded"
           list="datalistOptions"
           placeholder="any"
           v-model="selectedGenre"
@@ -21,7 +21,7 @@
         <select
           v-model="selectedScore"
           @change="goToScore(selectedScore)"
-          class="form-select"
+          class="form-select shadow mb-5 bg-white rounded"
         >
           <option value="any">any</option>
           <option value="-score">best</option>
