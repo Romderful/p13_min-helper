@@ -62,7 +62,6 @@ export default {
 
   computed: {
     ...mapGetters(["getAnimesData"]),
-    ...mapGetters(["getUser"]),
   },
 
   methods: {
@@ -74,9 +73,7 @@ export default {
     },
 
     async setAnimesData() {
-      const response = await axios.get(
-        `api-v1/animes-favourites/?user=${this.getUser.username}`
-      );
+      const response = await axios.get("api-v1/animes-favourites/");
       this.$store.dispatch("updateAnimesData", response.data);
     },
   },

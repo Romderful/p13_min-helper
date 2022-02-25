@@ -11,6 +11,7 @@ class AnimeSerializer(serializers.ModelSerializer):
     linked_animes = serializers.SerializerMethodField()
     is_favourite = serializers.SerializerMethodField()
     favourite_id = serializers.SerializerMethodField()
+    added_to_favourites = serializers.SerializerMethodField()
 
     def get_linked_animes(self, anime: Anime):
         """Return the animes that matches with the same categories."""
@@ -32,6 +33,10 @@ class AnimeSerializer(serializers.ModelSerializer):
         ]
 
         return substitutes
+
+    def get_added_to_favourites(self, anime: Anime):
+        """Return the number of times this anime has been added to the favourites."""
+        return Favourite.objects.filter(anime=anime).count()
 
     def get_is_favourite(self, anime: Anime) -> bool:
         """Return a boolean depending if the favourite exists."""

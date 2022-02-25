@@ -53,3 +53,7 @@ class FavouriteViewSet(viewsets.ModelViewSet):
     queryset = Favourite.objects.all()
     serializer_class = FavouriteSerializer
     pagination_class = LargeResultsSetPagination
+
+    def get_queryset(self):
+        user = self.request.user
+        return Favourite.objects.filter(user=user)
