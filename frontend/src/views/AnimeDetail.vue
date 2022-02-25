@@ -4,7 +4,7 @@
       <img class="anime-cover-image" :src="animeData.cover_image" />
       <div v-if="!this.animeData.is_favourite">
         <button
-          @click="addToFavourites(this.animeData.id)"
+          @click="addToFavourites"
           class="btn btn-sm btn-primary mt-3"
           style="width: 12rem"
           type="submit"
@@ -14,13 +14,19 @@
       </div>
       <div v-else>
         <button
-          @click="addToFavourites(this.animeData.id)"
+          @click="addToFavourites"
           class="btn btn-sm btn-primary mt-3"
           style="width: 12rem"
           type="submit"
         >
           Remove from favourites
         </button>
+      </div>
+      <div class="conatainer mt-3">
+        <i
+          >This anime has been added to favourites
+          {{ this.animeData.added_to_favourites }} time(s)</i
+        >
       </div>
     </div>
     <div class="container mb-5">
@@ -143,18 +149,21 @@ export default {
   },
 
   methods: {
-    async addToFavourites(anime_id) {
+    async addToFavourites() {
+      await this.setAnimeData();
       if (this.animeData.is_favourite === false) {
         axios.post("api-v1/animes-favourites/", {
           user: this.getUser.username,
-          anime: anime_id,
+          anime: this.id,
         });
         this.animeData.is_favourite = true;
+        this.animeData.added_to_favourites++;
       } else {
         axios.delete(
           `api-v1/animes-favourites/${this.animeData.favourite_id}/`
         );
         this.animeData.is_favourite = false;
+        this.animeData.added_to_favourites--;
       }
     },
 
@@ -170,7 +179,7 @@ export default {
     async postComment() {
       await axios.post("api-v1/animes-comments/", {
         author: this.getUser.username,
-        anime: this.animeData.id,
+        anime: this.id,
         content: this.comment,
       });
       this.comment = "";
@@ -183,16 +192,19 @@ export default {
       );
       this.commentData = response.data;
     },
+
+    async setAnimeData() {
+      const response = await axios.get(`api-v1/animes/${this.id}/`);
+      this.animeData = response.data;
+    },
   },
 
   computed: {
-    ...mapGetters(["getAnimesData"]),
     ...mapGetters(["getUser"]),
   },
 
   async created() {
-    const response = await axios.get(`api-v1/animes/${this.id}/`);
-    this.animeData = response.data;
+    await this.setAnimeData();
     let linkedAnimesId = Object.values(this.animeData.linked_animes);
     for (const id of linkedAnimesId) {
       this.getLinkedAnimes(id);
