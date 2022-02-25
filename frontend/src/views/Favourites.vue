@@ -14,6 +14,7 @@
                 :to="{
                   name: 'AnimeDetail',
                   params: { id: anime.anime_details.id },
+                  query: { page: 1 },
                 }"
                 ><img
                   class="anime-cover-image"
@@ -38,6 +39,7 @@
               :to="{
                 name: 'AnimeDetail',
                 params: { id: anime.anime_details.id },
+                query: { page: 1 },
               }"
             >
               <p class="anime-name">

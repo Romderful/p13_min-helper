@@ -83,7 +83,11 @@
         >
           <router-link
             class="router-link"
-            :to="{ name: 'AnimeDetail', params: { id: anime.id } }"
+            :to="{
+              name: 'AnimeDetail',
+              params: { id: anime.id },
+              query: { page: 1 },
+            }"
           >
             <div class="anime-card card border-0">
               <img class="anime-cover-image" :src="anime.cover_image" />
