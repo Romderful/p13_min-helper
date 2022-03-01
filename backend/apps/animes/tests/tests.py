@@ -1,3 +1,4 @@
+from apps.animes.models import Anime
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from rest_framework import status
@@ -32,6 +33,8 @@ class AnimeViewsetTestCase(APITestCase):
             password="some_password",
         )
 
+        Anime.objects.create(english_name="test")
+
         auth_token = self.client.post(
             "/api-v1/auth/login/",
             {"email": "test@gmail.com", "password": "some_password"},
@@ -46,3 +49,7 @@ class AnimeViewsetTestCase(APITestCase):
         self.client.force_authenticate(user=None)
         response = self.client.get(self.list_url)
         self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_anime_detail_retrieve(self):
+        response = self.client.get(reverse("animes-detail", kwargs={"pk": 1}))
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
