@@ -42,7 +42,7 @@ class CommentViewSet(viewsets.ModelViewSet):
 
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ["anime"]
-    queryset = Comment.objects.all().order_by("-created_date")
+    queryset = Comment.objects.all().order_by("created_date")
     serializer_class = CommentSerializer
     pagination_class = SmallResultsSetPagination
 
@@ -50,10 +50,10 @@ class CommentViewSet(viewsets.ModelViewSet):
 class FavouriteViewSet(viewsets.ModelViewSet):
     """Categories model viewset."""
 
-    queryset = Favourite.objects.all().order_by("-created_date")
+    queryset = Favourite.objects.all().order_by("created_date")
     serializer_class = FavouriteSerializer
     pagination_class = LargeResultsSetPagination
 
     def get_queryset(self):
         user = self.request.user
-        return Favourite.objects.filter(user=user).order_by("-created_date")
+        return Favourite.objects.filter(user=user).order_by("created_date")
