@@ -56,6 +56,7 @@ class Favourite(models.Model):
 
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     anime = models.ForeignKey(Anime, on_delete=models.PROTECT)
+    created_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         """Display the email of the user with the favourite anime in the admin panel."""
