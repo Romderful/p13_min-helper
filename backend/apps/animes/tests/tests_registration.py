@@ -14,3 +14,4 @@ class RegistrationTestCase(APITestCase):
 
         response = self.client.post("/api-v1/auth/registration/", data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.data["user"]["username"], "test")
