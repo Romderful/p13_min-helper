@@ -131,7 +131,7 @@ dmypy.json
 .pyre/
 
 
-data/db
+postgres-data
 staticfiles
 .nuxt
 frontend/coverage

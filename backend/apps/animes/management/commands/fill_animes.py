@@ -71,14 +71,10 @@ class AniAPI:
         """
         for anime in data:
             if (
-                len(anime["titles"]["en"]) <= 175
-                or anime["titles"]["en"] == None
-                and len(anime["titles"]["jp"]) <= 175
-                or anime["titles"]["jp"] == None
-                and len(anime["start_date"]) <= 25
-                or anime["start_date"] == None
-                and len(anime["end_date"]) <= 25
-                or anime["end_date"] == None
+                (anime["titles"]["en"] and len(anime["titles"]["en"]) <= 175)
+                and (anime["titles"]["jp"] == None or len(anime["titles"]["jp"]) <= 175)
+                and (anime["start_date"] == None or len(anime["start_date"]) <= 25)
+                and (anime["end_date"] == None or len(anime["end_date"]) <= 25)
             ):
                 self.filtered_animes_dataset.append(anime)
         return self.filtered_animes_dataset
