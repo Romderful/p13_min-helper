@@ -1,6 +1,11 @@
 FROM node
-WORKDIR /code
-COPY frontend/package.json /code/
+
+
+WORKDIR /app
+
+COPY frontend/package.json /app/
+
 RUN npm install
 RUN npm install -g @vue/cli
-COPY ./frontend /code/
+
+COPY . /app/
