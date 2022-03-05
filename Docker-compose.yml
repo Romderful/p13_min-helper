@@ -5,7 +5,6 @@ services:
     build: .
     container_name: min-helper_web
     command: "gunicorn --chdir backend --workers=2 --bind=0.0.0.0:8000 config.wsgi:application"
-    # command: python backend/manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     depends_on:
