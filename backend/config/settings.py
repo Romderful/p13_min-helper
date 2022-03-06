@@ -147,7 +147,7 @@ if DEBUG:
 
 else:
     STATIC_URL = "/static/"
-    STATIC_ROOT = BASE_DIR / "static"
+    STATIC_ROOT = BASE_DIR / "staticfiles"
     STATICFILES_DIRS = [VUE_DIST]
 
 # Default primary key field type
