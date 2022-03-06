@@ -1,5 +1,12 @@
+setup:
+  addons:
+  - plan: heroku-postgresql
 build:
   docker:
     web: Dockerfile
+release:
+  image: web
+  command:
+    - python backend/manage.py collectstatic --noinput
 run:
-  web: "gunicorn --chdir backend --workers=2 --bind=0.0.0.0 config.wsgi:application"
+  web: "gunicorn --chdir backend -config.wsgi"
