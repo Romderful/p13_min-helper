@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
+from doctest import FAIL_FAST
 import os
 import django_heroku
 from pathlib import Path
@@ -28,7 +29,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if os.environ.get("ENV", "developpement") == "production" else True
+# DEBUG = False if os.environ.get("ENV", "developpement") == "production" else True
+DEBUG = False
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".herokuapps.com"]
 
@@ -147,8 +149,7 @@ if DEBUG:
 
 else:
     STATIC_URL = "/static/"
-    STATIC_ROOT = BASE_DIR / "staticfiles"
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+    STATIC_ROOT = [os.path.join(BASE_DIR, "static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
