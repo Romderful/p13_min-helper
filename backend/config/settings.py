@@ -28,8 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = False if os.environ.get("ENV", "development") == "production" else True
-DEBUG = False
+DEBUG = False if os.environ.get("ENV", "development") == "production" else True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".herokuapps.com"]
 
