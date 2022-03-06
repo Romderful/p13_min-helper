@@ -1,7 +1,7 @@
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
-    publicPath: "/static/",
+    publicPath: "static/",
     configureWebpack: {
         devServer: {
             devMiddleware: {
