@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
-import django_heroku
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -180,5 +179,3 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "apps.animes.pagination.MyCustomPagination",
     "PAGE_SIZE": 12,
 }
-
-django_heroku.settings(locals())
