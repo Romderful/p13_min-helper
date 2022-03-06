@@ -147,7 +147,7 @@ if DEBUG:
 
 else:
     STATIC_URL = "/static/"
-    STATIC_ROOT = BASE_DIR / "staticfiles"
+    STATIC_ROOT = BASE_DIR / "static"
     STATICFILES_DIRS = [VUE_DIST]
 
 # Default primary key field type
@@ -186,5 +186,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "apps.animes.pagination.MyCustomPagination",
     "PAGE_SIZE": 12,
 }
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 
 django_heroku.settings(locals())
