@@ -22,5 +22,8 @@ urlpatterns = [
     path("api-v1/auth/", include("dj_rest_auth.urls")),
     path("api-v1/auth/registration/", include("dj_rest_auth.registration.urls")),
     path("api-v1/", include("apps.animes.urls")),
-    re_path(r"^.*", TemplateView.as_view(template_name="index.html")),
+    re_path(
+        r"^.*",
+        TemplateView.as_view(template_name="index.html", content_type="text/html"),
+    ),
 ]
