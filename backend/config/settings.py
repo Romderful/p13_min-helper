@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+import django_heroku
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -27,7 +28,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get("ENV", "developpement") == "production" else True
 
 ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".herokuapps.com"]
 
@@ -140,8 +141,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = "/static/"
-STATICFILES_DIRS = [VUE_DIST]
+if DEBUG:
+    STATIC_URL = "/static/"
+    STATICFILES_DIRS = [VUE_DIST]
+
+else:
+    STATIC_URL = "/static/"
+    STATIC_ROOT = BASE_DIR / "static"
+    STATICFILES_DIRS = [VUE_DIST]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -179,3 +186,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "apps.animes.pagination.MyCustomPagination",
     "PAGE_SIZE": 12,
 }
+
+django_heroku.settings(locals())
