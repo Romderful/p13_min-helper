@@ -4,9 +4,5 @@ setup:
 build:
   docker:
     web: Dockerfile
-release:
-  image: web
-  command:
-    - python backend/manage.py collectstatic --noinput
 run:
   web: "gunicorn --chdir backend config.wsgi"
