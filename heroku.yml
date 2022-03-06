@@ -2,4 +2,4 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: "gunicorn --chdir backend --workers=2 config.wsgi:application"
+  web: "gunicorn --chdir backend --workers=2 --bind=0.0.0.0:8000 config.wsgi:application"
