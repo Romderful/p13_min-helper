@@ -9,4 +9,4 @@ release:
   command:
     - python backend/manage.py collectstatic --noinput
 run:
-  web: "gunicorn --chdir backend -config.wsgi"
+  web: "gunicorn --chdir backend config.wsgi"
