@@ -16,6 +16,7 @@ psycopg2 = "*"
 django-filter = "*"
 gunicorn = "*"
 whitenoise = "*"
+django-heroku = "*"
 
 [dev-packages]
 black = "*"

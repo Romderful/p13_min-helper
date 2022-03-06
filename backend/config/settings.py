@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 import os
+import django_heroku
 from pathlib import Path
 from dotenv import load_dotenv
 
@@ -29,7 +30,7 @@ SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost"]
+ALLOWED_HOSTS = ["127.0.0.1", "localhost", ".herokuapps.com"]
 
 
 # Application definition
@@ -179,3 +180,5 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "apps.animes.pagination.MyCustomPagination",
     "PAGE_SIZE": 12,
 }
+
+django_heroku.settings(locals())
