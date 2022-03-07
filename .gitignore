@@ -136,3 +136,5 @@ staticfiles
 frontend/coverage
 .eslintcache
 .vscode
+Pipfile
+Pipfile.lock
