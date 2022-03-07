@@ -47,16 +47,24 @@ class AniAPI:
     def get_animes_data(self) -> list:
         """Returns the animes data retrieved from AniAPI API."""
         running = True
+        number_of_pages = str(
+            input(
+                "How many pages do you want to retrieve ? - Press enter to get all the available data : "
+            )
+        )
         page = 1
         while running:
             response = requests.get(self.api_url, params={"page": page})
-            print(f"page : {page} - getting the data...")
-            if page < response.json()["data"]["last_page"]:
+            last_page = response.json()["data"]["last_page"]
+            if number_of_pages == "":
+                number_of_pages = last_page
+            if page < int(number_of_pages):
                 for anime in response.json()["data"]["documents"]:
                     self.animes_dataset.append(anime)
                 time.sleep(1)  # API restriction
             else:
                 running = False
+            print(f"Retrieving page : {page} of {number_of_pages}")
             page += 1
         return self.animes_dataset
 
@@ -91,6 +99,9 @@ class AniAPI:
                 episodes_count=anime["episodes_count"],
                 cover_image=anime["cover_image"],
                 score=anime["score"],
+            )
+            print(
+                f"Filling data : {self.filtered_animes_dataset.index(anime)} out of {len(self.filtered_animes_dataset)}"
             )
 
             for category in anime["genres"]:
