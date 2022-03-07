@@ -100,12 +100,13 @@ class AniAPI:
                 cover_image=anime["cover_image"],
                 score=anime["score"],
             )
-            print(
-                f"Filling data : {self.filtered_animes_dataset.index(anime)} out of {len(self.filtered_animes_dataset)}"
-            )
 
             for category in anime["genres"]:
                 created_category, created = Category.objects.update_or_create(
                     name=category
                 )
                 created_anime.categories.add(created_category)
+
+            print(
+                f"Filling data : {self.filtered_animes_dataset.index(anime)} out of {len(self.filtered_animes_dataset)}"
+            )
